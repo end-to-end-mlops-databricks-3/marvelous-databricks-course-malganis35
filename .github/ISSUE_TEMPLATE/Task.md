@@ -1,3 +1,11 @@
+---
+name: Task
+about: Assign a Task of TO DO
+title: ""
+labels: ''
+assignees: ''
+---
+
 *Provide a general summary of the issue in the Title above*
 
 DESCRIPTION

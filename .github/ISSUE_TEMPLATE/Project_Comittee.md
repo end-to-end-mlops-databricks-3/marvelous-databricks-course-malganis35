@@ -1,3 +1,11 @@
+---
+name: Project Comittee
+about: Prepare a Project Comittee
+title: "[PM] "
+labels: bug
+assignees: ''
+---
+
 *Provide a general summary of the issue in the Title above*
 
 DESCRIPTION

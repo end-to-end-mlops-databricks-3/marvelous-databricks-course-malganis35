@@ -1,3 +1,11 @@
+---
+name: Bug Report
+about: Report a bug to improve the application
+title: "[BUG] "
+labels: bug
+assignees: ''
+---
+
 *Provide a general summary of the issue in the Title above*
 
 Expected Behavior
