@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the Cao Tri DO Marvelous MLOps Training Documentation
+Welcome to the MLOps Cao Tri DO Training Documentation
 ============================================================================
 
 
@@ -16,10 +16,10 @@ Welcome to the Cao Tri DO Marvelous MLOps Training Documentation
    :caption: Contents:
 
 .. toctree::
-   :caption: Source Code
+   :caption: Minimal Setup
    :maxdepth: 2
 
-   .. /docs/source_code/index.rst
+   docs/setup/index.rst
 
 .. toctree::
    :caption: Documentation Quickstart

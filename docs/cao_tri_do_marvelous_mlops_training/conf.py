@@ -18,7 +18,7 @@ from datetime import date
 
 # -- Project information -----------------------------------------------------
 
-project = "Cao Tri DO Marvelous MLOps Training Documentation"
+project = "MLOps Cao Tri DO Training"
 copyright = f"{date.today().year}, Keyrus"
 author = "Keyrus"
 
