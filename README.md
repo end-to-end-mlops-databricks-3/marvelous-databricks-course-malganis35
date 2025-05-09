@@ -114,3 +114,15 @@ uv sync --extra dev
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://github.com/end-to-end-mlops-databricks-3/cookiecutter-mlops-course">cookiecutter-mlops-course template</a>. #cookiecutter</small></p>
+
+## Setup
+
+1. Create a personnal token on Github
+
+2. Setup your linux environment variable
+EXPORT GITHUB_TOKEN = "xxxx"
+
+3. Install Databricks extension
+
+- Databricks
+- Databricks Power Tools
