@@ -18,13 +18,10 @@ dependencies = ["mlflow==2.17.0",
                 "databricks-sdk==0.32.0",
                 "pydantic==2.9.2",
                 "loguru==0.7.3",
-                "marvelous",
+                "marvelous@git+https://github.com/end-to-end-mlops-databricks-3/marvelous@0.1.0",
                 ]
 
 dynamic = ['version']
-
-[tool.uv.sources]
-marvelous = {git = "https://${GIT_TOKEN}@github.com/end-to-end-mlops-databricks-3/marvelous.git", rev="0.1.0"}
 
 [project.optional-dependencies]
 dev = ["databricks-connect==15.4.5",
