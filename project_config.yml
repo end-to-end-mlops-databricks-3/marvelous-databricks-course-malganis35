@@ -1,12 +1,21 @@
 prd:
   catalog_name: mlops_prd
   schema_name: caotrido
+  raw_data_file: hotel_reservations.csv
+  train_table: hotel_reservations_train_set
+  test_table: hotel_reservations_test_set
 acc:
   catalog_name: mlops_acc
   schema_name: caotrido
+  raw_data_file: hotel_reservations.csv
+  train_table: hotel_reservations_train_set
+  test_table: hotel_reservations_test_set
 dev:
   catalog_name: mlops_dev
   schema_name: caotrido
+  raw_data_file: hotel_reservations.csv
+  train_table: hotel_reservations_train_set
+  test_table: hotel_reservations_test_set
 
 parameters:
   learning_rate: 0.01

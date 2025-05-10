@@ -19,6 +19,9 @@ class ProjectConfig(BaseModel):
     catalog_name: str
     schema_name: str
     parameters: dict[str, Any]
+    raw_data_file: str
+    train_table: str
+    test_table: str
 
     @classmethod
     def from_yaml(cls, config_path: str, env: str = "dev") -> "ProjectConfig":
@@ -35,7 +38,10 @@ class ProjectConfig(BaseModel):
             config_dict = yaml.safe_load(f)
             config_dict["catalog_name"] = config_dict[env]["catalog_name"]
             config_dict["schema_name"] = config_dict[env]["schema_name"]
-
+            config_dict["raw_data_file"] = config_dict[env]["raw_data_file"]
+            config_dict["train_table"] = config_dict[env]["train_table"]
+            config_dict["test_table"] = config_dict[env]["test_table"]
+            
             return cls(**config_dict)
 
 
