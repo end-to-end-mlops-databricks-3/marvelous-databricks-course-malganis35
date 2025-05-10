@@ -22,6 +22,12 @@ Welcome to the MLOps Cao Tri DO Training Documentation
    docs/setup/index.rst
 
 .. toctree::
+   :caption: Project Setup
+   :maxdepth: 2
+
+   docs/project_setup/index.rst
+
+.. toctree::
    :caption: Documentation Quickstart
    :maxdepth: 1
 
