@@ -38,12 +38,12 @@ Introduction to project squeleton
 
 source: https://best-practice-and-impact.github.io/govcookiecutter/#govcookiecutter
 
-Within the team, when you start a new Python Data Science project, you will always have to 
+Within the team, when you start a new Python Data Science project, you will always have to
 start with our squeleton.
 
 .. note:: **What is a squeleton ?**
-   
-   A squeleton is a template of code with which by just answering to some questions, it will 
+
+   A squeleton is a template of code with which by just answering to some questions, it will
    automatically generates for you the folders, structure and initial code for you. With this,
    you can start your data science project in 2 min and have a code production ready from day 1 !
    Amazing, not ?
@@ -85,7 +85,7 @@ Example of structure created by our cookiecutter template:
     │
     ├── setup.py              <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                   <- Source code for use in this project.
-    │   ├── mypkg             <- Name of your package    
+    │   ├── mypkg             <- Name of your package
     │   │   ├── __init__.py   <- Makes src a Python module
     │   │   │
     │   │   ├── data          <- Scripts to download or generate data
@@ -109,7 +109,7 @@ Installation of cookiecutter
 
 ``cookiecutter`` can be installed in 2 ways:
 
-- using **Python** : ``pip install cookiecutter`` (do not forget to install it within a pyenv environment). This is not recommended because you will have 
+- using **Python** : ``pip install cookiecutter`` (do not forget to install it within a pyenv environment). This is not recommended because you will have
 - using **apt** : ``sudo apt-get install cookiecutter``
 
 Be careful, even if the last way seems more confortable because it is not attached to a virtual environment, we have observe that the apt package version is not the latest.
@@ -123,4 +123,3 @@ After, you can add some aliases to your ``.bashrc``. For example : **marvelous-m
 .. code-block:: bash
 
    alias marvelous-make='cookiecutter git@git_repo_url'
-

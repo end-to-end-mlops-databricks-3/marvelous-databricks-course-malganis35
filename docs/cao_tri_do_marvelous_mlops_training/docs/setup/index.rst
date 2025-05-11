@@ -9,7 +9,7 @@ Minimal PC Setup
    wsl_setup.rst
    git_setup.rst
    github.rst
-   python_setup.rst   
+   python_setup.rst
    vscode_setup.rst
    databricks_setup.rst
 

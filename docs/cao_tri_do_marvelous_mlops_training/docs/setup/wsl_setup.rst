@@ -8,12 +8,12 @@ WSL Setup
 .. admonition:: Pre-requiresites
 
    - You have a laptop in Windows 10 or Windows 11
-   - You will need the **admin rights** on your machine to do this. 
+   - You will need the **admin rights** on your machine to do this.
 
 Install Software
 -----------------
 
-We use `(Windows Subsystem for Linux) WSL2 <https://learn.microsoft.com/en-us/windows/wsl/about>`__ to provide a Linux on top of Windows. 
+We use `(Windows Subsystem for Linux) WSL2 <https://learn.microsoft.com/en-us/windows/wsl/about>`__ to provide a Linux on top of Windows.
 The general stack for WSL2 contains:
 
 1. Virtual Machine Plateform for Windows
@@ -40,7 +40,7 @@ Go into the **Microsoft Store** and install:
       :width: 600px
 
 .. tab:: Ubuntu
-   
+
    MS Store Link: https://www.microsoft.com/store/productId/9PN20MSR04DW?ocid=pdpshare
 
    .. image:: laptop_setup/ubuntu.png
@@ -102,21 +102,21 @@ Some common errors you might encounter
    0 - First uninstall all the distribution installed on your PC
 
    1- Set the WSL default version to 1
-   
+
    .. code-block:: bash
-      
+
       wsl --set-default-version 1
-   
+
    2- Install Ubuntu distribution
-   
+
    .. code-block:: bash
-      
+
       wsl.exe --install Ubuntu
-   
-   3- Set the WSL default version back to version 2 
-   
+
+   3- Set the WSL default version back to version 2
+
    .. code-block:: bash
-   
+
       wsl --set-default-version 2
 
 .. tab:: Failure of WSL register distribution (ERROR: 0x8004032d)
@@ -175,7 +175,7 @@ And install all the basics packages used within the team:
    You can easily fix this by executing this command line:
 
    .. code-block:: bash
-   
+
       echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
 
    ``8.8.8.8`` is Google's own DNS server.
@@ -202,8 +202,8 @@ Developped by Microsoft, it offers a reliable/flexible way to work with WSL.
    .. image:: laptop_setup/windows_terminal.png
       :width: 600px
 
-.. tab:: Manual installation 
-   
+.. tab:: Manual installation
+
    **1)** Download Windows Terminal software from github: https://github.com/microsoft/terminal/releases/tag/v1.18.3181.0
 
    **2)** Launch **Windows Powershell**
@@ -229,9 +229,9 @@ To setup your Windows Terminal, you can either import our automatic setup or do 
 .. tab:: Automatic setup
 
    Open a Powershell terminal and copy/paste these command lines:
-   
+
    .. code:: bash
-      
+
       # Create a folder for installation
       mkdir tmp
       # Go to folder
@@ -253,11 +253,11 @@ To setup your Windows Terminal, you can either import our automatic setup or do 
 
       rm tmp/
 
-.. tab:: Manual setup  
+.. tab:: Manual setup
 
    **Usefull tricks**
 
-   **1)** Disable the bell 
+   **1)** Disable the bell
 
    In parameters page:
 
@@ -282,7 +282,7 @@ To setup your Windows Terminal, you can either import our automatic setup or do 
    - disable/suppress *Ctrl + V* shortcut (conflict with vim Visual mode)
 
    **WSL Toolbox**
-   
+
    **Limit WSL CPU/Memory consumption**
 
    A good way to restraint WSL memory allocation is to create a ``.wslconfig`` file.
@@ -298,7 +298,7 @@ To setup your Windows Terminal, you can either import our automatic setup or do 
    For instance, a good configuration for data services' Laptop is:
 
    .. code:: bash
-         
+
       [wsl2]
       memory=20GB
       processors=4
@@ -332,13 +332,13 @@ commands to handle linux overconsumption such as :
 
    # Get Vmmem process information
    Get-rocess vmmem
-   
+
    # List running wsl distributions
    wsl -l --running
 
    # Shutdown a VM session
    wsl -t <the_name_of_the_distribution>
-   
+
    # Shutdows Vmmem process
    wsl --shutdown
 
@@ -365,7 +365,7 @@ Allow Ubuntu to send GUI windows to Windows
       terminator
 
 .. tab:: For Laptop on WSL 1
-   
+
    To use the Linux GUI application we need to send the GUI from the Ubuntu terminal to the
    running service VcXsrv Windows server.
 
@@ -419,10 +419,9 @@ Allow Ubuntu to send GUI windows to Windows
 
 .. note::
    Congratulation! You have now succeeded to install you basics setup with Linux.
-   
+
    Before continuing your installation, we recommend you to learn basics skills in Linux
    by looking at the **Linux Quickstart training**. You will be able to:
 
    - Learn the top basics commands for Data Scientist (obligatory)
    - Learn some advanced skills in Linux (optional)
-

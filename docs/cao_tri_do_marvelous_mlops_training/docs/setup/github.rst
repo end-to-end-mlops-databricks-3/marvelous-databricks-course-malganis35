@@ -10,7 +10,7 @@ SSH & Github Setup
    :class: hint
 
    Check you have access to the Github of the course `Github Marvelous <https://github.com/end-to-end-mlops-databricks-3>`__
-   
+
    If not, please contact Maria or Basak.
 
 
@@ -44,7 +44,7 @@ Configure ``ssh`` and your keys:
       - They will provide you with a zip file e.g. ``cao-tri.do@keyrus.com.zip`` with
         both your public and private key, copy them in your Windows Documents folder.
 
-        Please save the zip file in your Windows Documents folder. 
+        Please save the zip file in your Windows Documents folder.
 
   .. note::
 
@@ -99,7 +99,7 @@ Copy the following lines in the ``config`` file and replace ``cao-tri.do@keyrus.
 
 .. note::
   In the config file above, by default, for all host, your private generated key will be used.
-  For a new host, add new line like above. You will be able to define a specific ``ssh`` private key 
+  For a new host, add new line like above. You will be able to define a specific ``ssh`` private key
   by using the line: ``IdentityFile ~/.ssh/my_private_key``
 
 (Recommended) SSH Agent
@@ -109,15 +109,15 @@ Based on: https://kb.iu.edu/d/aeww
 
 To avoid typing each time you push or fetch from Gitlab, you can use a SSH Agent.
 
-In Unix, **ssh-agent** is a background program that handles passwords for SSH private keys. 
+In Unix, **ssh-agent** is a background program that handles passwords for SSH private keys.
 The **ssh-add** command prompts the user for a private key password and adds it to the list maintained by **ssh-agent**.
-Once you add a password to **ssh-agent**, you will not be prompted for it when using SSH or 
+Once you add a password to **ssh-agent**, you will not be prompted for it when using SSH or
 scp to connect to hosts with your public key.
 
-The public part of the key loaded into the agent must be put on the target system in ``~/.ssh/authorized_keys``; 
+The public part of the key loaded into the agent must be put on the target system in ``~/.ssh/authorized_keys``;
 see Set up SSH public key authentication to connect to a remote system.
 
-To use **ssh-agent** and **ssh-add**, at the Unix prompt, enter: 
+To use **ssh-agent** and **ssh-add**, at the Unix prompt, enter:
 
 .. code:: bash
 
@@ -134,7 +134,7 @@ The code below allows for an SSH key to only have to be inputted once in order t
 
     eval `ssh-agent`
     ssh-add .ssh/cao-tri.do@keyrus.com
-  
+
 .. tab:: Advanced agent
 
   .. code-block:: shell
@@ -161,7 +161,7 @@ The code below allows for an SSH key to only have to be inputted once in order t
 
     unset env
 
-You just need to add this code in your .profile or .bashrc (don’t forget to do source ~/.bashrc after).   
+You just need to add this code in your .profile or .bashrc (don’t forget to do source ~/.bashrc after).
 
 Solving SSH issues
 ==================
@@ -280,7 +280,7 @@ Next time, Github will just say Welcome, your SSH keys are working fine:
 And then, you obtain:
 
 .. code:: bash
-   
+
     PTY allocation request failed on channel 0
     Hi malganis35! You've successfully authenticated, but GitHub does not provide shell access.
     Connection to github.com closed.

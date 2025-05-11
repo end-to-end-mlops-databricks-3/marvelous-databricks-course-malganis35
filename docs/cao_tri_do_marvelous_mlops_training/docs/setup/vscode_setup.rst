@@ -41,7 +41,7 @@ We will be using VS Code directly connected to our WSL instance. For this:
 
    code
 
-3. (Recommended) Alternatively, you can add this alias to your `.bashrc` file. 
+3. (Recommended) Alternatively, you can add this alias to your `.bashrc` file.
 It will allow to open VS Code using the current folder:
 
 .. code-block:: bash
@@ -52,7 +52,7 @@ It will allow to open VS Code using the current folder:
 VS Code DS shortcut
 ==========================
 
-Source: 
+Source:
 
 - https://gist.github.com/bradtraversy/b28a0a361880141af928ada800a671d9
 - Cheat Sheet : https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf
@@ -78,7 +78,7 @@ But once I got the hang of these keyboard shortcuts, my workflow leveled up — 
 Whether you're a beginner or a pro dev, these little tricks can save you HOURS.
 
 .. image:: vscode_setup/shortcuts.png
-   
+
 
 AI Coding Assistant Shortcuts (Continue)
 ----------------------------------------
@@ -93,7 +93,7 @@ AI Coding Assistant Shortcuts (Continue)
      - **Comment**
    * - CTRL + L
      - Open Continue AI Coding Assistant
-     - 
+     -
    * - CTRL + I
      - Open Continue AI Coding Assistant (Inline code)
      -
@@ -112,19 +112,19 @@ Open / View
 
    * - CTRL + P
      - Quick file open
-     - 
+     -
    * - CTRL + Shift + P
      - Open Command Palette
-     - 
+     -
    * - CTRL + Shift + E
      - Sidebar Focus
-     - 
+     -
    * - CTRL + B
      - Toggle Sidebar
-     - 
+     -
    * - CTRL + W
      - Close file
-     - 
+     -
 
 Working with files
 ------------------
@@ -139,7 +139,7 @@ Working with files
      - You can then select a line of text and Click the "Find in selection" icon to the right **Alt + L** or ⌘ L on macOS)
    * - CTRL + ,
      - Open Settings
-     - 
+     -
 
 Code Editing
 ------------
@@ -154,37 +154,37 @@ Code Editing
      - **Comment**
    * - CTRL + Left or Right
      - Move by words
-     - 
+     -
    * - CTRL + Home or End
      - Go to beginning or end of file
-     - 
+     -
    * - Alt + Up or Down
      - Move Line Up & Down
-     - 
+     -
    * - Shift + Alt + Up or Down
      - Copy Line Up & Down
-     - 
+     -
    * - CTRL + Enter
      - Insert Line
-     - 
+     -
    * - CTRL + /
      - Comment a line
-     - 
+     -
    * - Shift+Alt+A
      - Add Block Comment
-     - 
+     -
    * - CTRL + D
      - Select Next Match
-     - 
+     -
    * - CTRL + K then CTRL + U
      - Comment out the highlighted section or the line
-     - 
+     -
    * - CTRL + ^
      - Indent
-     - 
+     -
    * - CTRL + )
      - Outdent
-     - 
+     -
 
 Keyrus VS Code Plugins
 ======================
@@ -227,7 +227,7 @@ A Tier (Nice to Have)
 Installing a plug-in to simplify the writing in sphinx
 ------------------------------------------------------
 
-You'll need to go to the plug-in section in VScode, you can open it with CTRL+Maj+X, and then you type "reStructuredText" in the search bar and you install it. 
+You'll need to go to the plug-in section in VScode, you can open it with CTRL+Maj+X, and then you type "reStructuredText" in the search bar and you install it.
 
 Procedure to install an extension (example with reStructuredText)
 
@@ -264,7 +264,7 @@ If you use a Linux server (for example Oracle Cloud), to setup your WSL:
       HostName srv002.astraviz.fr
       User ubuntu
 
-4. Go into VS Code 
+4. Go into VS Code
 5. Select: "Connect to Host"
 6. Select: "Add new ssh host". Enter the ssh
 7. Alternatively, you will be able to open the remote explorer file from VS Code

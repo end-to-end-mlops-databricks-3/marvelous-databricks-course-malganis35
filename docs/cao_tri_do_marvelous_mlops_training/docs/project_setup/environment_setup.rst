@@ -35,7 +35,7 @@ VS Code Settings
         "jupyter.interactiveWindow.cellMarker.default": "# COMMAND ----------"
     }
 
-This will allow you to run Databricks notebooks in VS Code. 
+This will allow you to run Databricks notebooks in VS Code.
 You will need to use in your .py files the following command to run the cells:
 
 .. code-block:: python

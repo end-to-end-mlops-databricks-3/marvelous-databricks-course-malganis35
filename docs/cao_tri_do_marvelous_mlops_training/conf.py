@@ -118,9 +118,7 @@ highlight_language = "none"
 
 
 favicons = [
-    {
-        "href": "Keyrus_logo_MakeDataMatter_baseline_rvb.jpg"
-    },  # => use `_static/icon.svg`
+    {"href": "Keyrus_logo_MakeDataMatter_baseline_rvb.jpg"},  # => use `_static/icon.svg`
 ]
 
 

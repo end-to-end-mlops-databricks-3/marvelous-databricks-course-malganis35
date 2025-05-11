@@ -30,8 +30,8 @@ Setup your VS Code for Databricks
 
    - Open the extensions tab (Ctrl + Shift + X)
    - Search for Databricks
-   - Install the extensions named: 
-   
+   - Install the extensions named:
+
      - Databricks by Databricks
      - Databricks Connect by Databricks
      - Databricks CLI by Databricks
@@ -126,4 +126,4 @@ and add the following code:
 
 7. Run the demo file on Databricks. Click on the "Run" button in the top right corner of the editor and select **"Upload and Run on Databricks"** . This will execute the code in the Databricks notebook and display the results in the output panel.
 
-    
+

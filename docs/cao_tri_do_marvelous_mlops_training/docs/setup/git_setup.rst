@@ -36,7 +36,7 @@ The structure of this Github structure is organized as follow:
 
 Install Git
 -------------------------
-If you want to install the basic Git tools on Linux via a binary installer, you can generally do so through the package management tool that comes with your distribution. 
+If you want to install the basic Git tools on Linux via a binary installer, you can generally do so through the package management tool that comes with your distribution.
 
 As usual, first start with an update of your package and then, install git from the command line
 
@@ -89,9 +89,9 @@ To do this, add the following code in your ``~/.bashrc``
 -------------------------
 Based on the article: https://korben.info/gitui.html
 
-In general, the inconvenient of graphical interface are: 
+In general, the inconvenient of graphical interface are:
 
-1/ they are not in the terminal ; 
+1/ they are not in the terminal ;
 
 2/ they slow down your user experience.
 
@@ -112,7 +112,7 @@ To install GitUI
 .. tab:: with Snap
 
   1. Install snap
-  
+
   .. code-block:: bash
 
     sudo apt update
@@ -126,7 +126,7 @@ To install GitUI
 
 
 .. tab:: old installation (not functional anymore)
-  
+
   .. code:: bash
 
     curl -s curl -s https://api.github.com/repos/extrawurst/gitui/releases/latest | grep -wo "https.*linux.*gz" | wget -qi -
