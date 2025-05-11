@@ -1,20 +1,17 @@
-#%% Databricks notebook source
+# %% Databricks notebook source
 
-import argparse
 
 import yaml
 from loguru import logger
+from marvelous.timer import Timer
 from pyspark.sql import SparkSession
 
-from mlops_course.utils.config import ProjectConfig
 from mlops_course.feature.data_processor import DataProcessor
-from marvelous.logging import setup_logging
-from marvelous.timer import Timer
-import pandas as pd
+from mlops_course.utils.config import ProjectConfig
 
 # COMMAND ----------
 
-config_path = f"../project_config.yml"
+config_path = "../project_config.yml"
 
 config = ProjectConfig.from_yaml(config_path=config_path, env="dev")
 

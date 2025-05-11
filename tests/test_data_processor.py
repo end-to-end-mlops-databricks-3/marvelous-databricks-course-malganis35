@@ -1,10 +1,12 @@
-import numpy as np
-import pytest
-import pandas as pd
 from unittest.mock import MagicMock, patch
+
+import numpy as np
+import pandas as pd
+import pytest
+
 from mlops_course.feature.data_processor import DataProcessor
 from mlops_course.utils.config import ProjectConfig
-from unittest.mock import MagicMock
+
 
 @pytest.fixture
 def sample_config():
@@ -17,28 +19,30 @@ def sample_config():
         parameters={},
         raw_data_file="dummy.csv",
         train_table="train_table",
-        test_table="test_table"
+        test_table="test_table",
     )
 
 
 @pytest.fixture
 def sample_dataframe():
-    return pd.DataFrame({
-        "Booking_ID": ["ID1", "ID2"],
-        "no_of_weekend_nights": [1, 2],
-        "no_of_week_nights": [2, 3],
-        "no_of_children": [0, 1],
-        "arrival_year": [2023, 2023],
-        "arrival_month": [5, 5],
-        "arrival_date": [10, 11],
-        "booking_status": ["Canceled", "Not_Canceled"],
-        "type_of_meal_plan": ["Meal Plan 1", "Meal Plan 2"],
-        "room_type_reserved": ["Room A", "Room B"],
-        "market_segment_type": ["Online", "Offline"],
-        "lead_time": [10, 20],
-        "avg_price_per_room": [100.0, 150.0],
-        "no_of_special_requests": [1, 2]
-    })
+    return pd.DataFrame(
+        {
+            "Booking_ID": ["ID1", "ID2"],
+            "no_of_weekend_nights": [1, 2],
+            "no_of_week_nights": [2, 3],
+            "no_of_children": [0, 1],
+            "arrival_year": [2023, 2023],
+            "arrival_month": [5, 5],
+            "arrival_date": [10, 11],
+            "booking_status": ["Canceled", "Not_Canceled"],
+            "type_of_meal_plan": ["Meal Plan 1", "Meal Plan 2"],
+            "room_type_reserved": ["Room A", "Room B"],
+            "market_segment_type": ["Online", "Offline"],
+            "lead_time": [10, 20],
+            "avg_price_per_room": [100.0, 150.0],
+            "no_of_special_requests": [1, 2],
+        }
+    )
 
 
 @pytest.fixture
@@ -71,7 +75,9 @@ def test_save_to_catalog_calls_spark_write(mock_current_ts, mock_to_utc_ts, proc
     mock_to_utc_ts.return_value = MagicMock(name="utc_timestamp")
 
     # Mock la méthode Spark saveAsTable
-    processor.spark.createDataFrame.return_value.withColumn.return_value.write.mode.return_value.saveAsTable = MagicMock()
+    processor.spark.createDataFrame.return_value.withColumn.return_value.write.mode.return_value.saveAsTable = (
+        MagicMock()
+    )
 
     df_train, df_test = processor.split_data()
     processor.save_to_catalog(df_train, df_test)
@@ -80,18 +86,20 @@ def test_save_to_catalog_calls_spark_write(mock_current_ts, mock_to_utc_ts, proc
     calls = processor.spark.createDataFrame.return_value.withColumn.return_value.write.mode.return_value.saveAsTable.call_args_list
     assert len(calls) == 2
 
+
 def test_preprocess_without_booking_status(processor):
     processor.df.drop(columns=["booking_status"], inplace=True)
     df_processed = processor.preprocess()
     assert "booking_status" not in df_processed.columns
 
+
 def test_log_and_scale_with_missing_columns(processor):
     # Supprime volontairement certaines colonnes avant le traitement
     processor.df.drop(columns=["lead_time", "avg_price_per_room"], inplace=True)
-    
+
     # Appelle uniquement la fonction concernée
     processor._log_and_scale_numeric()
-    
+
     # Vérifie que les autres colonnes attendues ont bien été transformées (s'il en reste)
     for col in ["total_nights", "no_of_special_requests"]:
         if col in processor.df.columns:

@@ -1,6 +1,8 @@
 import tempfile
-import yaml
+
 import pytest
+import yaml
+
 from mlops_course.utils.config import ProjectConfig, Tags
 
 
@@ -16,22 +18,22 @@ def config_yaml_content():
             "schema_name": "schema_prd",
             "raw_data_file": "file_prd.csv",
             "train_table": "train_prd",
-            "test_table": "test_prd"
+            "test_table": "test_prd",
         },
         "acc": {
             "catalog_name": "catalog_acc",
             "schema_name": "schema_acc",
             "raw_data_file": "file_acc.csv",
             "train_table": "train_acc",
-            "test_table": "test_acc"
+            "test_table": "test_acc",
         },
         "dev": {
             "catalog_name": "catalog_dev",
             "schema_name": "schema_dev",
             "raw_data_file": "file_dev.csv",
             "train_table": "train_dev",
-            "test_table": "test_dev"
-        }
+            "test_table": "test_dev",
+        },
     }
 
 

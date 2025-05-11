@@ -41,7 +41,7 @@ class ProjectConfig(BaseModel):
             config_dict["raw_data_file"] = config_dict[env]["raw_data_file"]
             config_dict["train_table"] = config_dict[env]["train_table"]
             config_dict["test_table"] = config_dict[env]["test_table"]
-            
+
             return cls(**config_dict)
 
 

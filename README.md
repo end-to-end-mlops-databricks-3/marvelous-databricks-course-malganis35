@@ -63,7 +63,7 @@ uv sync --extra dev
 
 ## Project Organization
 
-    ├── Taskfile              <- Taskfile with commands 
+    ├── Taskfile              <- Taskfile with commands
     ├── README.md             <- The top-level README for developers using this project.
     │
     ├── data
