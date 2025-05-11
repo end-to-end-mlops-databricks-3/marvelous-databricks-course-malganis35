@@ -6,8 +6,8 @@ import yaml
 from loguru import logger
 from pyspark.sql import SparkSession
 
-from mlops_course.config import ProjectConfig
-from mlops_course.data_processor import DataProcessor
+from mlops_course.utils.config import ProjectConfig
+from mlops_course.feature.data_processor import DataProcessor
 from marvelous.logging import setup_logging
 from marvelous.timer import Timer
 import pandas as pd
