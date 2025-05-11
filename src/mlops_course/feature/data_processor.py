@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from datetime import datetime
 
-from mlops_course.config import ProjectConfig
+from mlops_course.utils.config import ProjectConfig
 
 class DataProcessor:
     """A class for preprocessing and managing DataFrame operations.
