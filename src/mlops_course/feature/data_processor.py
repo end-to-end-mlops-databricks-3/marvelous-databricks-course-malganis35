@@ -66,40 +66,6 @@ class DataProcessor:
 
     def _cleanup_columns(self):
         self.df.drop(columns=["arrival_year", "arrival_month", "arrival_date"], errors='ignore', inplace=True)
-
-    # def preprocess(self) -> None:
-    #     """Preprocess the DataFrame stored in self.df.
-
-    #     This method handles missing values, converts data types, and performs feature engineering.
-    #     """
-    
-    #     # Create a new column 'arrival_date_str' in the format YYYY-MM-DD
-    #     self.df['arrival_date_str'] = (
-    #     self.df['arrival_year'].astype(str) + '-' +
-    #     self.df['arrival_month'].astype(str).str.zfill(2) + '-' +
-    #     self.df['arrival_date'].astype(str).str.zfill(2)
-    #     )
-
-    #     # Function to correctly parse the date and handle exceptions
-    #     def safe_parse_date(row):
-    #         year = int(row['arrival_year'])
-    #         month = int(row['arrival_month'])
-    #         day = int(row['arrival_date'])
-            
-    #         try:
-    #             return datetime(year, month, day)
-    #         except ValueError as e:
-    #             # Cas particulier : 29 février d'une année non bissextile
-    #             if month == 2 and day == 29:
-    #                 try:
-    #                     return datetime(year, month, 28)
-    #                 except:
-    #                     return pd.NaT
-    #             else:
-    #                 return pd.NaT
-
-    #     # Apply the function
-    #     self.df['arrival_datetime'] = self.df.apply(safe_parse_date, axis=1)
     
     def split_data(self, test_size: float = 0.2, random_state: int = 42) -> tuple[pd.DataFrame, pd.DataFrame]:
         """Split the DataFrame (self.df) into training and test sets.
