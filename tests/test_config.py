@@ -1,4 +1,7 @@
+"""Unit tests for configuration loading and validation logic in mlops_course.utils.config."""
+
 import tempfile
+from typing import Any
 
 import pytest
 import yaml
@@ -7,7 +10,7 @@ from mlops_course.utils.config import ProjectConfig, Tags
 
 
 @pytest.fixture
-def config_yaml_content():
+def config_yaml_content() -> dict[str, Any]:
     """Provide a dictionary representing a valid project configuration.
 
     :return: A dictionary representing the full structure of a config YAML file.
@@ -41,11 +44,10 @@ def config_yaml_content():
     }
 
 
-def test_from_yaml_loads_dev_env_correctly(config_yaml_content):
+def test_from_yaml_loads_dev_env_correctly(config_yaml_content: dict[str, Any]) -> None:
     """Test that ProjectConfig.from_yaml loads the 'dev' environment correctly.
 
     :param config_yaml_content: A valid YAML dictionary containing multiple envs.
-    :return: Asserts that the values loaded for 'dev' are accurate.
     """
     with tempfile.NamedTemporaryFile(mode="w+", suffix=".yaml") as tmp:
         yaml.dump(config_yaml_content, tmp)
@@ -56,11 +58,10 @@ def test_from_yaml_loads_dev_env_correctly(config_yaml_content):
         assert config.parameters == {"param1": 0.1, "param2": 100}
 
 
-def test_from_yaml_invalid_env_raises_error(config_yaml_content):
+def test_from_yaml_invalid_env_raises_error(config_yaml_content: dict[str, Any]) -> None:
     """Test that ProjectConfig.from_yaml raises ValueError for an invalid environment.
 
     :param config_yaml_content: A valid YAML dictionary.
-    :return: Asserts that loading an unknown environment raises the appropriate error.
     """
     with tempfile.NamedTemporaryFile(mode="w+", suffix=".yaml") as tmp:
         yaml.dump(config_yaml_content, tmp)
@@ -69,11 +70,8 @@ def test_from_yaml_invalid_env_raises_error(config_yaml_content):
             ProjectConfig.from_yaml(tmp.name, env="test_env")
 
 
-def test_tags_model_instantiation():
-    """Test that the Tags data model initializes and stores values correctly.
-
-    :return: Asserts each field matches the provided input values.
-    """
+def test_tags_model_instantiation() -> None:
+    """Test that the Tags data model initializes and stores values correctly."""
     tags = Tags(git_sha="abc123", branch="main", job_run_id="42")
     assert tags.git_sha == "abc123"
     assert tags.branch == "main"

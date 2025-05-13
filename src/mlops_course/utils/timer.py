@@ -1,8 +1,10 @@
+"""Timing utilities: decorators and context managers for measuring execution time."""
+
 import time
 from collections.abc import Callable
-from contextlib import contextmanager
+from contextlib import AbstractContextManager, contextmanager
 from functools import wraps
-from typing import ContextManager, ParamSpec, TypeVar
+from typing import ParamSpec, TypeVar
 
 from loguru import logger
 
@@ -11,11 +13,10 @@ R = TypeVar("R")
 
 
 @contextmanager
-def measure_time(task_name: str = "") -> ContextManager[None]:
+def measure_time(task_name: str = "") -> AbstractContextManager[None]:
     """Measure the execution time of a code block.
 
     :param task_name: A descriptive name for the task being measured.
-    :type task_name: str
     :yield: Executes the block of code wrapped by the context manager.
 
     :example:
@@ -33,7 +34,7 @@ def measure_time(task_name: str = "") -> ContextManager[None]:
 
 
 def timeit(func: Callable[P, R]) -> Callable[P, R]:
-    """A decorator to measure and log the execution time of a function.
+    """Measure and log the execution time of a function.
 
     :param func: The function whose execution time is to be measured.
     :return: A wrapped function that logs its execution duration.

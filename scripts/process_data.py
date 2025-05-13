@@ -1,3 +1,5 @@
+"""Main entry point for preprocessing hotel reservation data."""
+
 # %% Databricks notebook source
 
 import yaml

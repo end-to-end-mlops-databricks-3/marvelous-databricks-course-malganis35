@@ -1,8 +1,4 @@
-"""Main script for data preprocessing using the DataProcessor class.
-
-This script loads raw hotel reservation data, applies feature engineering and transformations,
-splits the data, and writes the results to Databricks Delta tables.
-"""
+"""Module for preprocessing hotel reservation data."""
 
 import numpy as np
 import pandas as pd

@@ -1,24 +1,26 @@
+"""Unit tests for the DataProcessor class in mlops_course.feature.data_processor."""
+
 import time
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from mlops_course.utils.timer import measure_time, timeit
 
 
-def test_timeit_decorator_returns_result():
+def test_timeit_decorator_returns_result() -> None:
     """Verify that the @timeit decorator returns the correct result.
 
     :return: Asserts the output of the decorated function is correct.
     """
 
     @timeit
-    def add(a, b):
+    def add(a: int, b: int) -> int:
         return a + b
 
     assert add(2, 3) == 5
 
 
 @patch("mlops_course.utils.timer.logger")
-def test_timeit_logs_execution_time(mock_logger):
+def test_timeit_logs_execution_time(mock_logger: MagicMock) -> None:
     """Test that the @timeit decorator logs an execution time message.
 
     :param mock_logger: Mocked loguru logger.
@@ -26,7 +28,7 @@ def test_timeit_logs_execution_time(mock_logger):
     """
 
     @timeit
-    def dummy_function():
+    def dummy_function() -> str:
         time.sleep(0.01)
         return "done"
 
@@ -40,7 +42,7 @@ def test_timeit_logs_execution_time(mock_logger):
 
 
 @patch("mlops_course.utils.timer.logger")
-def test_timeit_measures_correct_duration(mock_logger):
+def test_timeit_measures_correct_duration(mock_logger: MagicMock) -> None:
     """Test that the @timeit decorator correctly measures execution time.
 
     :param mock_logger: Mocked loguru logger.
@@ -48,7 +50,7 @@ def test_timeit_measures_correct_duration(mock_logger):
     """
 
     @timeit
-    def test_func():
+    def test_func() -> int:
         return 42
 
     result = test_func()
@@ -62,7 +64,7 @@ def test_timeit_measures_correct_duration(mock_logger):
 
 
 @patch("builtins.print")
-def test_measure_time_prints_duration(mock_print):
+def test_measure_time_prints_duration(mock_print: MagicMock) -> None:
     """Test that measure_time context manager prints elapsed time.
 
     :param mock_print: Mocked built-in print function.
