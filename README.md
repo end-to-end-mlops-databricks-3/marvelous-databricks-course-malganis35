@@ -33,7 +33,7 @@ GIT_TOKEN=<your github PAT>
 
 To create a new environment and create a lockfile, run:
 ```
-task sync-dev
+task dev-install
 source .venv/bin/activate
 ```
 
