@@ -46,7 +46,7 @@ tasks:
   pc:
     desc: Run pre-commit hooks
     cmds:
-      - task: sync-dev
+      - task: dev-install
       - uv run pre-commit run --all-files
 
   lint:
