@@ -7,7 +7,7 @@ Welcome to the MLOps Cao Tri DO Training Documentation
 ============================================================================
 
 
-.. image:: /docs/fond-ld7.jpg
+.. image:: _static/hotel_reservation.jpeg
    :width: 700px
    :align: center
 
@@ -16,16 +16,24 @@ Welcome to the MLOps Cao Tri DO Training Documentation
    :caption: Contents:
 
 .. toctree::
-   :caption: Minimal Setup
+   :caption: Project Context
    :maxdepth: 2
 
-   docs/setup/index.rst
+   docs/context/index.rst
 
 .. toctree::
    :caption: Project Setup
    :maxdepth: 2
 
+   docs/setup/index.rst
    docs/project_setup/index.rst
+
+.. toctree::
+   :caption: Data Pipeline, Training and Deployment
+   :maxdepth: 2
+
+   docs/code_documentation/index.rst
+
 
 .. toctree::
    :caption: Documentation Quickstart

@@ -190,7 +190,7 @@ and also for your public SSH key
   chmod 600 ~/.ssh/id_rsa.pub
 
 
-Login Github
+Login to Github
 =========================
 
 Login Github with your user and password

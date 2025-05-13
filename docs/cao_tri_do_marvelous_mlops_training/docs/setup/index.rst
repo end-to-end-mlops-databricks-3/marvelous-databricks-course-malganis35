@@ -1,6 +1,6 @@
-=================
-Minimal PC Setup
-=================
+========================
+Local PC Setup (Windows)
+========================
 
 .. toctree::
    :maxdepth: 1
@@ -11,7 +11,6 @@ Minimal PC Setup
    github.rst
    python_setup.rst
    vscode_setup.rst
-   databricks_setup.rst
 
 .. toctree::
    :maxdepth: 1

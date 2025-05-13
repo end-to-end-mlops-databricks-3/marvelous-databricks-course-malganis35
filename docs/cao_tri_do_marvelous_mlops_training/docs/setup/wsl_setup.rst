@@ -22,7 +22,7 @@ The general stack for WSL2 contains:
 4. Ubuntu
 5. Gui App
 
-Install with Windows Store (Keyrus Laptop)
+Install with Windows Store
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. On Keyrus Laptop, it is easier to use the Microsoft Store to install the different applications.
@@ -55,7 +55,7 @@ Go into the **Microsoft Store** and install:
 
 2. Alternatively, go to the website of VS Code (https://code.visualstudio.com/). Download it and install it manually
 
-Windows 11 with admin rights (not Keyrus Laptop)
+Windows 11 with admin rights
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you have Windows 11, you can install all of these components by opening a Powershell windows and use:
@@ -186,7 +186,7 @@ And install all the basics packages used within the team:
 Install Windows Terminal
 ------------------------
 
-.. image:: /docs/setup_your_pc/wsl_setup/windows_terminal.png
+.. image:: wsl_setup/windows_terminal.png
    :width: 500px
 
 The windows terminal is an alternative to classic  linux console or terminator.

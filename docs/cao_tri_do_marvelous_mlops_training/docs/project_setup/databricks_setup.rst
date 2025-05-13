@@ -11,9 +11,11 @@ Databricks Setup
 
     This article is intended to help you to setup your Databricks environment within VS Code.
 
-
-Link to our Databricks environment
+Setup our Databricks environment
 ----------------------------------
+
+Access the Databricks workspace
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 URL : https://dbc-c2e8445d-159d.cloud.databricks.com/
 
@@ -22,6 +24,16 @@ URL : https://dbc-c2e8445d-159d.cloud.databricks.com/
 The username of the Databricks account is the email address you sent in the registration form.
 
 There is no password, it will send an email with a code to enter to validate your account.
+
+Create the Catalog for your data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Go to the Databricks workspace
+2. Go to Catalog
+3. Go to mlops_dev
+4. Go to your schema name (e.g. `caotrido`)
+5. Create a new volume (Create > Create Volume)
+6. Upload the data files (Create > Upload Files)
 
 Setup your VS Code for Databricks
 ------------------------------------------------
@@ -125,5 +137,3 @@ and add the following code:
     df.show(5)
 
 7. Run the demo file on Databricks. Click on the "Run" button in the top right corner of the editor and select **"Upload and Run on Databricks"** . This will execute the code in the Databricks notebook and display the results in the output panel.
-
-
