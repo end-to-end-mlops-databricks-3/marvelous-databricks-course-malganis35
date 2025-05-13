@@ -8,6 +8,10 @@ from mlops_course.utils.config import ProjectConfig, Tags
 
 @pytest.fixture
 def config_yaml_content():
+    """Provide a dictionary representing a valid project configuration.
+
+    :return: A dictionary representing the full structure of a config YAML file.
+    """
     return {
         "num_features": ["f1", "f2"],
         "cat_features": ["c1", "c2"],
@@ -38,6 +42,11 @@ def config_yaml_content():
 
 
 def test_from_yaml_loads_dev_env_correctly(config_yaml_content):
+    """Test that ProjectConfig.from_yaml loads the 'dev' environment correctly.
+
+    :param config_yaml_content: A valid YAML dictionary containing multiple envs.
+    :return: Asserts that the values loaded for 'dev' are accurate.
+    """
     with tempfile.NamedTemporaryFile(mode="w+", suffix=".yaml") as tmp:
         yaml.dump(config_yaml_content, tmp)
         tmp.seek(0)
@@ -48,6 +57,11 @@ def test_from_yaml_loads_dev_env_correctly(config_yaml_content):
 
 
 def test_from_yaml_invalid_env_raises_error(config_yaml_content):
+    """Test that ProjectConfig.from_yaml raises ValueError for an invalid environment.
+
+    :param config_yaml_content: A valid YAML dictionary.
+    :return: Asserts that loading an unknown environment raises the appropriate error.
+    """
     with tempfile.NamedTemporaryFile(mode="w+", suffix=".yaml") as tmp:
         yaml.dump(config_yaml_content, tmp)
         tmp.seek(0)
@@ -56,6 +70,10 @@ def test_from_yaml_invalid_env_raises_error(config_yaml_content):
 
 
 def test_tags_model_instantiation():
+    """Test that the Tags data model initializes and stores values correctly.
+
+    :return: Asserts each field matches the provided input values.
+    """
     tags = Tags(git_sha="abc123", branch="main", job_run_id="42")
     assert tags.git_sha == "abc123"
     assert tags.branch == "main"
