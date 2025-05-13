@@ -14,7 +14,7 @@ Test your local setup
 We provide a test script to check if your local setup is working properly. This script will run a simple test to check if the data is loaded correctly (demo.py).
 
 .. code-block:: python
-    
+
     # %% Databricks notebook source
     from pyspark.sql import SparkSession
 
@@ -33,7 +33,7 @@ You should see the following output:
 
 .. code-block:: bash
 
-    +--------------------+---------------------+-------------+-----------+----------+-----------+                                                  
+    +--------------------+---------------------+-------------+-----------+----------+-----------+
     |tpep_pickup_datetime|tpep_dropoff_datetime|trip_distance|fare_amount|pickup_zip|dropoff_zip|
     +--------------------+---------------------+-------------+-----------+----------+-----------+
     | 2016-02-13 21:47:53|  2016-02-13 21:57:15|          1.4|        8.0|     10103|      10110|

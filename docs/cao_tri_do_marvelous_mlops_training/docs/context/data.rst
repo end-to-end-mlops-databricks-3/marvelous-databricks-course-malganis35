@@ -9,9 +9,9 @@ Data Dictionary
 .. admonition:: Objectives
     :class: important
 
-    This article is intended to provide a comprehensive overview of the data used in the project. 
+    This article is intended to provide a comprehensive overview of the data used in the project.
 
-source: 
+source:
 
 Data Dictionary
 ---------------
@@ -68,17 +68,17 @@ Accessing the Data
 
 The dataset is available on Kaggle. You can download it from the following link: https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset/data
 
-We also provide the dataset within the Unity Catalog of our databricks (https://dbc-c2e8445d-159d.cloud.databricks.com/). 
-This is a managed data lake that allows us to store and manage our data in a secure and scalable way. 
+We also provide the dataset within the Unity Catalog of our databricks (https://dbc-c2e8445d-159d.cloud.databricks.com/).
+This is a managed data lake that allows us to store and manage our data in a secure and scalable way.
 The raw dataset is stored in the following location:
 
-.. code-block:: 
+.. code-block::
 
    /Volumes/{config.catalog_name}/{config.schema_name}/data/{config.raw_data_file}
 
 The training and testing datasets are stored in the following locations:
 
-.. code-block:: 
+.. code-block::
 
    /Volumes/{config.catalog_name}.{config.schema_name}.{config.train_table}
    /Volumes/{config.catalog_name}/{config.schema_name}.{config.test_table}
