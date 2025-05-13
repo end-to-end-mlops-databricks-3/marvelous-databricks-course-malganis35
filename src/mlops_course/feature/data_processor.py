@@ -103,3 +103,17 @@ class DataProcessor:
         test_set_with_timestamp.write.mode("overwrite").saveAsTable(
             f"{self.config.catalog_name}.{self.config.schema_name}.{self.config.test_table}"
         )
+
+    def enable_change_data_feed(self) -> None:
+        """Enable Change Data Feed for train and test set tables.
+        This method alters the tables to enable Change Data Feed functionality.
+        """
+        self.spark.sql(
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.{self.config.train_table} "
+            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
+        )
+
+        self.spark.sql(
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.{self.config.test_table} "
+            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
+        )
