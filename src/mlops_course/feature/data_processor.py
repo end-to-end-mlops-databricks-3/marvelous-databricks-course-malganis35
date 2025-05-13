@@ -11,6 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from mlops_course.utils.config import ProjectConfig
 from mlops_course.utils.timer import timeit
 
+
 class DataProcessor:
     """A class for preprocessing and managing DataFrame operations.
 
@@ -18,13 +19,24 @@ class DataProcessor:
     """
 
     def __init__(self, pandas_df: pd.DataFrame, config: ProjectConfig, spark: SparkSession) -> None:
-        self.df = pandas_df  # Store the DataFrame as self.df
-        self.config = config  # Store the configuration
+        """
+        Initialize the DataProcessor.
+
+        :param pandas_df: A pandas DataFrame containing the raw input data.
+        :param config: A ProjectConfig object with parameters and table names.
+        :param spark: An active SparkSession.
+        """
+        self.df = pandas_df
+        self.config = config
         self.spark = spark
 
     @timeit
     def preprocess(self) -> pd.DataFrame:
-        """Apply full preprocessing pipeline to the dataset."""
+        """
+        Apply full preprocessing pipeline to the dataset.
+
+        :return: A cleaned and feature-engineered pandas DataFrame.
+        """
         self._drop_unused_columns()
         self._create_features()
         self._encode_target_and_categories()
@@ -34,9 +46,22 @@ class DataProcessor:
         return self.df
 
     def _drop_unused_columns(self):
+        """
+        Drop unused or unnecessary columns from the DataFrame.
+
+        Specifically removes 'Booking_ID' if present.
+        """
         self.df.drop(columns=["Booking_ID"], errors="ignore", inplace=True)
 
     def _create_features(self):
+        """
+        Create engineered features in the DataFrame.
+
+        Includes:
+        - total_nights: sum of weekend and week nights
+        - has_children: binary indicator if children are present
+        - arrival_date_complete: datetime composed of year, month, and day
+        """
         self.df["total_nights"] = self.df["no_of_weekend_nights"] + self.df["no_of_week_nights"]
         self.df["has_children"] = self.df["no_of_children"].apply(lambda x: 1 if x > 0 else 0)
         self.df["arrival_date_complete"] = pd.to_datetime(
@@ -44,6 +69,13 @@ class DataProcessor:
         )
 
     def _encode_target_and_categories(self):
+        """
+        Encode categorical variables and the target column if present.
+
+        - booking_status is mapped to binary: Canceled -> 1, Not_Canceled -> 0
+        - Categorical columns are one-hot encoded with drop_first=True
+        - All column names are cleaned (spaces replaced, invalid chars removed)
+        """
         if "booking_status" in self.df.columns:
             self.df["booking_status"] = self.df["booking_status"].map({"Canceled": 1, "Not_Canceled": 0})
         categorical_cols = ["type_of_meal_plan", "room_type_reserved", "market_segment_type"]
@@ -51,15 +83,20 @@ class DataProcessor:
             self.df, columns=[col for col in categorical_cols if col in self.df.columns], drop_first=True
         )
 
-        # clean column names to remove spaces
-
+        # Clean column names: remove spaces and invalid characters
         self.df.columns = (
-            self.df.columns.str.replace(" ", "_").str.replace(  # Remplacer les espaces par des underscores
+            self.df.columns.str.replace(" ", "_").str.replace(
                 r"[;{}()\n\t=]", "", regex=True
-            )  # Supprimer les caractères invalides restants
+            )
         )
 
     def _log_and_scale_numeric(self):
+        """
+        Apply log transformation and standard scaling to numeric features.
+
+        - Applies log1p to 'lead_time' and 'avg_price_per_room' if they exist.
+        - Scales available numerical columns to mean=0 and std=1.
+        """
         for col in ["lead_time", "avg_price_per_room"]:
             if col in self.df.columns:
                 self.df[col] = np.log1p(self.df[col])
@@ -72,11 +109,17 @@ class DataProcessor:
         self.df[numerical_cols] = scaler.fit_transform(self.df[numerical_cols])
 
     def _cleanup_columns(self):
+        """
+        Drop temporary or redundant date columns from the DataFrame.
+
+        Removes: 'arrival_year', 'arrival_month', 'arrival_date'
+        """
         self.df.drop(columns=["arrival_year", "arrival_month", "arrival_date"], errors="ignore", inplace=True)
 
     @timeit
     def split_data(self, test_size: float = 0.2, random_state: int = 42) -> tuple[pd.DataFrame, pd.DataFrame]:
-        """Split the DataFrame (self.df) into training and test sets.
+        """
+        Split the DataFrame (self.df) into training and test sets.
 
         :param test_size: The proportion of the dataset to include in the test split.
         :param random_state: Controls the shuffling applied to the data before applying the split.
@@ -90,7 +133,8 @@ class DataProcessor:
 
     @timeit
     def save_to_catalog(self, train_set: pd.DataFrame, test_set: pd.DataFrame) -> None:
-        """Save the train and test sets into Databricks tables.
+        """
+        Save the train and test sets into Databricks Delta tables.
 
         :param train_set: The training DataFrame to be saved.
         :param test_set: The test DataFrame to be saved.
@@ -117,8 +161,11 @@ class DataProcessor:
 
     @timeit
     def enable_change_data_feed(self) -> None:
-        """Enable Change Data Feed for train and test set tables.
-        This method alters the tables to enable Change Data Feed functionality.
+        """
+        Enable Change Data Feed (CDF) on the Delta tables for train and test sets.
+
+        This method runs ALTER TABLE commands to activate delta.enableChangeDataFeed=true
+        on both train and test tables in the Databricks catalog.
         """
         self.spark.sql(
             f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.{self.config.train_table} "
