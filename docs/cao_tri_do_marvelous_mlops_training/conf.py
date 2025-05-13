@@ -1,3 +1,5 @@
+"""Configuration for Sphinx documentation."""
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -9,11 +11,6 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-
-# sys.path.insert(0, os.path.abspath(".."))
 from datetime import date
 
 # -- Project information -----------------------------------------------------
@@ -53,8 +50,6 @@ googleanalytics_id = "G-XXXXXXXX"
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
-#
-# source_suffix = ['.rst', '.md']
 source_suffix = [".rst", ".md"]
 
 # Delete Warning dupplicate label
@@ -86,10 +81,6 @@ exclude_patterns = [
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
-# html_theme = "alabaster"
-# html_theme = "furo"
-# html_theme = "sphinx_book_theme"
 html_theme = "furo"
 
 html_theme_options = {
@@ -100,7 +91,6 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-# html_static_path = []
 html_static_path = ["_static"]
 
 # By default, generated HTML <title> has the value project release documentation. E.g. Tech writer at work 1.0 documentation.
@@ -113,8 +103,7 @@ html_title = project
 highlight_language = "none"
 
 
-# This is the file name suffix for HTML files (e.g. ".xhtml").
-# html_file_suffix = ".aspx"
+# This is the file name suffix for HTML files (e.g. ".xhtml"): html_file_suffix = ".aspx"
 
 
 favicons = [
@@ -124,30 +113,19 @@ favicons = [
 
 html_use_index = True
 
-#
-# html_theme_options = {
-#     "announcement": "<em>Announcement</em>: This is the test launch of the knowledge center",
-# }
-
-# -- Options for LaTeX output --------------------------------
+# Options for LaTeX output
 title = "Cao Tri DO Marvelous MLOps Training Documentation"  # \\newline\\newline\\large PDF Version"
 # The master toctree document.
 master_doc = "index"
 latex_theme = "manual"  # 'manual' to make a book, 'howto' to make an article
 latex_documents = [("index", "keyrus_training.tex", title, author, "howto")]
-# latex_engine = 'xelatex'
 latex_logo = "./_static/keyrus.jpg"
 
 latex_elements = {
-    # 'papersize': 'a4paper',  # 'letterpaper' or 'a4paper'
-    # 'pointsize': '10pt',     # global fontsize, possible values are 10pt, 11pt and 12pt
-    # 'sphinxsetup': 'hmargin={1.5cm,1.5cm}, vmargin={2cm,2cm}',
-    # 'classoptions': ',twocolumn',    # to have two columns
     "tableofcontents": "",  # To remove the TOC
-    # 'babel' : '\\usepackage[english]{babel}',
 }
 
-# -- Options for simple pdf output --------------------------------
+# Options for simple pdf output
 version = "1.0"
 
 simplepdf_debug = False
@@ -155,8 +133,6 @@ simplepdf_debug = False
 simplepdf_file_name = "keyrus-documentation.pdf"
 
 simplepdf_vars = {
-    # 'cover-overlay': 'rgba(26, 150, 26, 0.7)',
-    # 'primary-opaque': 'rgba(26, 150, 26, 0.7)',
     "cover-bg": "url(cover-bg.jpg) no-repeat center",
     "primary": "#28C6FF",
     "secondary": "#000000",
@@ -164,9 +140,6 @@ simplepdf_vars = {
     "white": "#ffffff",
     "links": "#28C6FF",
     "top-left-content": "counter(page)",
-    # 'top-center-content': '',
     "top-right-content": "string(heading)",
-    # 'bottom-left-content': 'counter(page)',
     "bottom-center-content": '"Keyrus Documentation"',
-    # 'bottom-right-content': 'string(heading)',
 }
