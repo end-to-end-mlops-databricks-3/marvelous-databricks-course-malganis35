@@ -43,7 +43,7 @@ def mock_config():
         cat_features=[],
         target="booking_status",
         parameters={},
-        raw_data_file="dummy.csv"
+        raw_data_file="dummy.csv",
     )
 
 

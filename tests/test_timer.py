@@ -1,6 +1,7 @@
 import time
-from unittest.mock import patch, MagicMock
-from mlops_course.utils.timer import timeit, measure_time
+from unittest.mock import patch
+
+from mlops_course.utils.timer import measure_time, timeit
 
 
 def test_timeit_decorator_returns_result():
@@ -8,6 +9,7 @@ def test_timeit_decorator_returns_result():
 
     :return: Asserts the output of the decorated function is correct.
     """
+
     @timeit
     def add(a, b):
         return a + b
@@ -22,6 +24,7 @@ def test_timeit_logs_execution_time(mock_logger):
     :param mock_logger: Mocked loguru logger.
     :return: Asserts the log message was triggered and formatted correctly.
     """
+
     @timeit
     def dummy_function():
         time.sleep(0.01)
@@ -43,6 +46,7 @@ def test_timeit_measures_correct_duration(mock_logger):
     :param mock_logger: Mocked loguru logger.
     :return: Asserts the log message includes correct formatting and function name.
     """
+
     @timeit
     def test_func():
         return 42
