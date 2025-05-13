@@ -1191,6 +1191,7 @@ dev = [
 ]
 test = [
     { name = "delta-spark" },
+    { name = "pre-commit" },
     { name = "pyspark" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -1216,6 +1217,7 @@ requires-dist = [
     { name = "pandas", specifier = "==2.2.3" },
     { name = "pip", marker = "extra == 'dev'", specifier = ">=24.2" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.1.0,<5" },
+    { name = "pre-commit", marker = "extra == 'test'", specifier = ">=4.1.0,<5" },
     { name = "psutil", specifier = "==6.0.0" },
     { name = "pyarrow", specifier = "==14.0.1" },
     { name = "pydantic", specifier = "==2.9.2" },
