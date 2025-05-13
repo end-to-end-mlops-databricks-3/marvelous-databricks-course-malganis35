@@ -1,0 +1,34 @@
+image: python:3.12-slim
+
+# List the different stages for the CI / CD
+stages:
+  - build
+  - deploy
+
+before_script:
+  - apt-get update && apt-get install -y git
+  - pip install -r requirements.txt
+  - pip install Sphinx sphinx-rtd-theme
+
+# Build Sphinx documentation
+build_docs:
+  stage: build
+  script:
+    - sphinx-build -b html ./ public_tmp/
+  artifacts:
+    paths:
+      - public_tmp
+  only:
+    - main
+
+# Deploy Sphinx documentation Artifact to Gitlab Pages
+pages:
+  stage: deploy
+  script:
+    - mv public_tmp public
+    - echo "Documentation deployed" > public/deploy.txt
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
