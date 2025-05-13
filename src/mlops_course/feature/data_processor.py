@@ -1,8 +1,12 @@
-"""Data preprocessing module."""
+"""Main script for data preprocessing using the DataProcessor class.
 
-from loguru import logger
+This script loads raw hotel reservation data, applies feature engineering and transformations,
+splits the data, and writes the results to Databricks Delta tables.
+"""
+
 import numpy as np
 import pandas as pd
+from loguru import logger
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import current_timestamp, to_utc_timestamp
 from sklearn.model_selection import train_test_split
@@ -19,8 +23,7 @@ class DataProcessor:
     """
 
     def __init__(self, pandas_df: pd.DataFrame, config: ProjectConfig, spark: SparkSession) -> None:
-        """
-        Initialize the DataProcessor.
+        """Initialize the DataProcessor.
 
         :param pandas_df: A pandas DataFrame containing the raw input data.
         :param config: A ProjectConfig object with parameters and table names.
@@ -32,8 +35,7 @@ class DataProcessor:
 
     @timeit
     def preprocess(self) -> pd.DataFrame:
-        """
-        Apply full preprocessing pipeline to the dataset.
+        """Apply full preprocessing pipeline to the dataset.
 
         :return: A cleaned and feature-engineered pandas DataFrame.
         """
@@ -45,17 +47,15 @@ class DataProcessor:
 
         return self.df
 
-    def _drop_unused_columns(self):
-        """
-        Drop unused or unnecessary columns from the DataFrame.
+    def _drop_unused_columns(self) -> None:
+        """Drop unused or unnecessary columns from the DataFrame.
 
         Specifically removes 'Booking_ID' if present.
         """
         self.df.drop(columns=["Booking_ID"], errors="ignore", inplace=True)
 
-    def _create_features(self):
-        """
-        Create engineered features in the DataFrame.
+    def _create_features(self) -> None:
+        """Create engineered features in the DataFrame.
 
         Includes:
         - total_nights: sum of weekend and week nights
@@ -65,12 +65,11 @@ class DataProcessor:
         self.df["total_nights"] = self.df["no_of_weekend_nights"] + self.df["no_of_week_nights"]
         self.df["has_children"] = self.df["no_of_children"].apply(lambda x: 1 if x > 0 else 0)
         self.df["arrival_date_complete"] = pd.to_datetime(
-            dict(year=self.df.arrival_year, month=self.df.arrival_month, day=self.df.arrival_date), errors="coerce"
+            {"year": self.df.arrival_year, "month": self.df.arrival_month, "day": self.df.arrival_date}, errors="coerce"
         )
 
-    def _encode_target_and_categories(self):
-        """
-        Encode categorical variables and the target column if present.
+    def _encode_target_and_categories(self) -> None:
+        """Encode categorical variables and the target column if present.
 
         - booking_status is mapped to binary: Canceled -> 1, Not_Canceled -> 0
         - Categorical columns are one-hot encoded with drop_first=True
@@ -84,15 +83,10 @@ class DataProcessor:
         )
 
         # Clean column names: remove spaces and invalid characters
-        self.df.columns = (
-            self.df.columns.str.replace(" ", "_").str.replace(
-                r"[;{}()\n\t=]", "", regex=True
-            )
-        )
+        self.df.columns = self.df.columns.str.replace(" ", "_").str.replace(r"[;{}()\n\t=]", "", regex=True)
 
-    def _log_and_scale_numeric(self):
-        """
-        Apply log transformation and standard scaling to numeric features.
+    def _log_and_scale_numeric(self) -> None:
+        """Apply log transformation and standard scaling to numeric features.
 
         - Applies log1p to 'lead_time' and 'avg_price_per_room' if they exist.
         - Scales available numerical columns to mean=0 and std=1.
@@ -108,9 +102,8 @@ class DataProcessor:
         scaler = StandardScaler()
         self.df[numerical_cols] = scaler.fit_transform(self.df[numerical_cols])
 
-    def _cleanup_columns(self):
-        """
-        Drop temporary or redundant date columns from the DataFrame.
+    def _cleanup_columns(self) -> None:
+        """Drop temporary or redundant date columns from the DataFrame.
 
         Removes: 'arrival_year', 'arrival_month', 'arrival_date'
         """
@@ -118,8 +111,7 @@ class DataProcessor:
 
     @timeit
     def split_data(self, test_size: float = 0.2, random_state: int = 42) -> tuple[pd.DataFrame, pd.DataFrame]:
-        """
-        Split the DataFrame (self.df) into training and test sets.
+        """Split the DataFrame (self.df) into training and test sets.
 
         :param test_size: The proportion of the dataset to include in the test split.
         :param random_state: Controls the shuffling applied to the data before applying the split.
@@ -128,13 +120,12 @@ class DataProcessor:
         train_set, test_set = train_test_split(self.df, test_size=test_size, random_state=random_state)
         logger.info(f"Training set shape: {train_set.shape}")
         logger.info(f"Test set shape: {test_set.shape}")
-        
+
         return train_set, test_set
 
     @timeit
     def save_to_catalog(self, train_set: pd.DataFrame, test_set: pd.DataFrame) -> None:
-        """
-        Save the train and test sets into Databricks Delta tables.
+        """Save the train and test sets into Databricks Delta tables.
 
         :param train_set: The training DataFrame to be saved.
         :param test_set: The test DataFrame to be saved.
@@ -151,7 +142,9 @@ class DataProcessor:
             f"{self.config.catalog_name}.{self.config.schema_name}.{self.config.train_table}"
         )
 
-        logger.info(f"Train set saved to {self.config.catalog_name}.{self.config.schema_name}.{self.config.train_table}")
+        logger.info(
+            f"Train set saved to {self.config.catalog_name}.{self.config.schema_name}.{self.config.train_table}"
+        )
 
         test_set_with_timestamp.write.mode("overwrite").saveAsTable(
             f"{self.config.catalog_name}.{self.config.schema_name}.{self.config.test_table}"
@@ -161,8 +154,7 @@ class DataProcessor:
 
     @timeit
     def enable_change_data_feed(self) -> None:
-        """
-        Enable Change Data Feed (CDF) on the Delta tables for train and test sets.
+        """Enable Change Data Feed (CDF) on the Delta tables for train and test sets.
 
         This method runs ALTER TABLE commands to activate delta.enableChangeDataFeed=true
         on both train and test tables in the Databricks catalog.
