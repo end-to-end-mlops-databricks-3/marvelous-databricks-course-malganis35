@@ -1,5 +1,6 @@
 """Data preprocessing module."""
 
+from loguru import logger
 import numpy as np
 import pandas as pd
 from pyspark.sql import SparkSession
@@ -8,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 from mlops_course.utils.config import ProjectConfig
-
+from mlops_course.utils.timer import timeit
 
 class DataProcessor:
     """A class for preprocessing and managing DataFrame operations.
@@ -21,6 +22,7 @@ class DataProcessor:
         self.config = config  # Store the configuration
         self.spark = spark
 
+    @timeit
     def preprocess(self) -> pd.DataFrame:
         """Apply full preprocessing pipeline to the dataset."""
         self._drop_unused_columns()
@@ -72,6 +74,7 @@ class DataProcessor:
     def _cleanup_columns(self):
         self.df.drop(columns=["arrival_year", "arrival_month", "arrival_date"], errors="ignore", inplace=True)
 
+    @timeit
     def split_data(self, test_size: float = 0.2, random_state: int = 42) -> tuple[pd.DataFrame, pd.DataFrame]:
         """Split the DataFrame (self.df) into training and test sets.
 
@@ -80,8 +83,12 @@ class DataProcessor:
         :return: A tuple containing the training and test DataFrames.
         """
         train_set, test_set = train_test_split(self.df, test_size=test_size, random_state=random_state)
+        logger.info(f"Training set shape: {train_set.shape}")
+        logger.info(f"Test set shape: {test_set.shape}")
+        
         return train_set, test_set
 
+    @timeit
     def save_to_catalog(self, train_set: pd.DataFrame, test_set: pd.DataFrame) -> None:
         """Save the train and test sets into Databricks tables.
 
@@ -100,10 +107,15 @@ class DataProcessor:
             f"{self.config.catalog_name}.{self.config.schema_name}.{self.config.train_table}"
         )
 
+        logger.info(f"Train set saved to {self.config.catalog_name}.{self.config.schema_name}.{self.config.train_table}")
+
         test_set_with_timestamp.write.mode("overwrite").saveAsTable(
             f"{self.config.catalog_name}.{self.config.schema_name}.{self.config.test_table}"
         )
 
+        logger.info(f"Test set saved to {self.config.catalog_name}.{self.config.schema_name}.{self.config.test_table}")
+
+    @timeit
     def enable_change_data_feed(self) -> None:
         """Enable Change Data Feed for train and test set tables.
         This method alters the tables to enable Change Data Feed functionality.
