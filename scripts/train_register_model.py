@@ -3,8 +3,9 @@
 # Databricks notebook source
 
 import os
-
 import mlflow
+import pretty_errors  # noqa: F401
+
 from dotenv import load_dotenv
 from loguru import logger
 from marvelous.common import is_databricks
