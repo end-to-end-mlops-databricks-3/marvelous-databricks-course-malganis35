@@ -1,7 +1,8 @@
-import pytest
-import pandas as pd
-import numpy as np
 from unittest.mock import MagicMock, patch
+
+import numpy as np
+import pandas as pd
+import pytest
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 
@@ -25,30 +26,21 @@ def sample_config() -> ProjectConfig:
         experiment_name_basic="/exp/basic",
         experiment_name_custom="/exp/custom",
         model_name="model",
-        model_type="logistic-regression"
+        model_type="logistic-regression",
     )
 
 
 @pytest.fixture
 def sample_data() -> pd.DataFrame:
     """Fixture providing a simple dataset with numeric and categorical features."""
-    return pd.DataFrame({
-        "num1": [1.0, 2.0],
-        "num2": [2.0, 3.0],
-        "cat1": ["A", "B"],
-        "target": [0, 1]
-    })
+    return pd.DataFrame({"num1": [1.0, 2.0], "num2": [2.0, 3.0], "cat1": ["A", "B"], "target": [0, 1]})
 
 
 @pytest.fixture
 def basic_model(sample_config):
     """Fixture initializing a BasicModel with required Tags and mocked SparkSession."""
     spark = MagicMock()
-    tags = Tags(
-        git_sha="abc123",
-        branch="main",
-        job_run_id="run-001"
-    )
+    tags = Tags(git_sha="abc123", branch="main", job_run_id="run-001")
     return BasicModel(sample_config, tags, spark)
 
 
@@ -105,6 +97,7 @@ def test_load_latest_model_and_predict(mock_mlflow, basic_model, sample_data):
     assert isinstance(result, np.ndarray)
     assert result.tolist() == [0, 1]
 
+
 def test_load_data_loads_splits_correctly(basic_model, sample_data):
     """Test that load_data correctly sets training and test sets from Spark tables."""
     basic_model.spark.table.return_value.toPandas.return_value = sample_data
@@ -129,10 +122,9 @@ def test_register_model_registers_with_alias(mock_mlflow, mock_client, basic_mod
 
     mock_mlflow.register_model.assert_called_once()
     client_instance.set_registered_model_alias.assert_called_with(
-        name=basic_model.model_name,
-        alias="latest-model",
-        version=42
+        name=basic_model.model_name, alias="latest-model", version=42
     )
+
 
 @patch("mlops_course.model.basic_model.mlflow")
 def test_retrieve_current_run_dataset_returns_dataset(mock_mlflow, basic_model):
@@ -146,6 +138,7 @@ def test_retrieve_current_run_dataset_returns_dataset(mock_mlflow, basic_model):
     result = basic_model.retrieve_current_run_dataset()
 
     assert result == "mocked-dataset"
+
 
 @patch("mlops_course.model.basic_model.mlflow")
 def test_retrieve_current_run_metadata_returns_dicts(mock_mlflow, basic_model):

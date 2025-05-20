@@ -109,4 +109,3 @@ Conclusion
 ==========
 
 The `BasicModel` class provides a structured and reproducible machine learning workflow integrated with Databricks and MLflow. It covers all critical phases from preprocessing and training to logging and deployment.
-
