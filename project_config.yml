@@ -17,31 +17,35 @@ dev:
   train_table: hotel_reservations_train_set
   test_table: hotel_reservations_test_set
 
+
+experiment_name_basic: /Users/caotri.do881@gmail.com/house-prices-basic
+experiment_name_custom: /Users/caotri.do881@gmail.com/house-prices-custom
+
+
 parameters:
-  learning_rate: 0.01
-  n_estimators: 1000
-  max_depth: 6
+  C: 1.0
+  max_iter: 1000
+  solver: lbfgs
 
 
 num_features:
-  - arrival_date,
-  - arrival_month,
-  - arrival_year,
-  - avg_price_per_room,
-  - lead_time,
-  - no_of_adults,
-  - no_of_children,
-  - no_of_previous_bookings_not_canceled,
-  - no_of_previous_cancellations,
-  - no_of_special_requests,
-  - no_of_week_nights,
-  - no_of_weekend_nights,
-  - repeated_guest,
+  - arrival_month
+  - arrival_year
+  - avg_price_per_room
+  - lead_time
+  - no_of_adults
+  - no_of_children
+  - no_of_previous_bookings_not_canceled
+  - no_of_previous_cancellations
+  - no_of_special_requests
+  - no_of_week_nights
+  - no_of_weekend_nights
+  - repeated_guest
   - required_car_parking_space
 
 cat_features:
-  - market_segment_type,
-  - room_type_reserved,
+  - market_segment_type
+  - room_type_reserved
   - type_of_meal_plan
 
 target: booking_status
