@@ -60,23 +60,6 @@ class DataProcessor:
         self.df["total_nights"] = self.df["no_of_weekend_nights"] + self.df["no_of_week_nights"]
         self.df["has_children"] = self.df["no_of_children"].apply(lambda x: 1 if x > 0 else 0)
 
-    def _encode_target_and_categories(self) -> None:
-        """Encode categorical variables and the target column if present.
-
-        - booking_status is mapped to binary: Canceled -> 1, Not_Canceled -> 0
-        - Categorical columns are one-hot encoded with drop_first=True
-        - All column names are cleaned (spaces replaced, invalid chars removed)
-        """
-        if "booking_status" in self.df.columns:
-            self.df["booking_status"] = self.df["booking_status"].map({"Canceled": 1, "Not_Canceled": 0})
-        categorical_cols = ["type_of_meal_plan", "room_type_reserved", "market_segment_type"]
-        self.df = pd.get_dummies(
-            self.df, columns=[col for col in categorical_cols if col in self.df.columns], drop_first=True
-        )
-
-        # Clean column names: remove spaces and invalid characters
-        self.df.columns = self.df.columns.str.replace(" ", "_").str.replace(r"[;{}()\n\t=]", "", regex=True)
-
     def _log_and_scale_numeric(self) -> None:
         """Apply log transformation and standard scaling to numeric features.
 
