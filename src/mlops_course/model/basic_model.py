@@ -55,7 +55,7 @@ class BasicModel:
         self.experiment_name = self.config.experiment_name_basic
         self.model_name = f"{self.catalog_name}.{self.schema_name}.{self.config.model_name}"
         self.model_type = self.config.model_type
-        self.tags = tags.dict()
+        self.tags = tags.model_dump()
 
     @timeit
     def load_data(self) -> None:
