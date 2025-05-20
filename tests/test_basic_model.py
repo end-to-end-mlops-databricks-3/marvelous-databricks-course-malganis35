@@ -1,3 +1,5 @@
+"""Unit tests for the BasicModel class using logistic regression."""
+
 from unittest.mock import MagicMock, patch
 
 import numpy as np
@@ -37,14 +39,14 @@ def sample_data() -> pd.DataFrame:
 
 
 @pytest.fixture
-def basic_model(sample_config):
+def basic_model(sample_config: ProjectConfig) -> BasicModel:
     """Fixture initializing a BasicModel with required Tags and mocked SparkSession."""
-    spark = MagicMock()
+    spark: MagicMock = MagicMock()
     tags = Tags(git_sha="abc123", branch="main", job_run_id="run-001")
     return BasicModel(sample_config, tags, spark)
 
 
-def test_prepare_features_creates_pipeline(basic_model, sample_data):
+def test_prepare_features_creates_pipeline(basic_model: BasicModel, sample_data: pd.DataFrame) -> None:
     """Test that prepare_features creates a valid scikit-learn pipeline."""
     basic_model.X_train = sample_data.drop(columns=["target"])
     basic_model.y_train = sample_data["target"]
@@ -54,7 +56,7 @@ def test_prepare_features_creates_pipeline(basic_model, sample_data):
     assert isinstance(basic_model.pipeline.named_steps["classifier"], LogisticRegression)
 
 
-def test_train_fits_model(basic_model, sample_data):
+def test_train_fits_model(basic_model: BasicModel, sample_data: pd.DataFrame) -> None:
     """Test that the train method fits the model pipeline without error."""
     basic_model.X_train = sample_data.drop(columns=["target"])
     basic_model.y_train = sample_data["target"]
@@ -65,7 +67,7 @@ def test_train_fits_model(basic_model, sample_data):
 
 
 @patch("mlops_course.model.basic_model.mlflow")
-def test_log_model_logs_metrics(mock_mlflow, basic_model, sample_data):
+def test_log_model_logs_metrics(mock_mlflow: MagicMock, basic_model: BasicModel, sample_data: pd.DataFrame) -> None:
     """Test that MLflow logging includes model metrics and parameters."""
     mock_run = MagicMock()
     mock_run.info.run_id = "1234"
@@ -87,7 +89,9 @@ def test_log_model_logs_metrics(mock_mlflow, basic_model, sample_data):
 
 
 @patch("mlops_course.model.basic_model.mlflow")
-def test_load_latest_model_and_predict(mock_mlflow, basic_model, sample_data):
+def test_load_latest_model_and_predict(
+    mock_mlflow: MagicMock, basic_model: BasicModel, sample_data: pd.DataFrame
+) -> None:
     """Test that load_latest_model_and_predict loads model and makes predictions."""
     mock_model = MagicMock()
     mock_model.predict.return_value = np.array([0, 1])
@@ -98,7 +102,7 @@ def test_load_latest_model_and_predict(mock_mlflow, basic_model, sample_data):
     assert result.tolist() == [0, 1]
 
 
-def test_load_data_loads_splits_correctly(basic_model, sample_data):
+def test_load_data_loads_splits_correctly(basic_model: BasicModel, sample_data: pd.DataFrame) -> None:
     """Test that load_data correctly sets training and test sets from Spark tables."""
     basic_model.spark.table.return_value.toPandas.return_value = sample_data
 
@@ -110,7 +114,9 @@ def test_load_data_loads_splits_correctly(basic_model, sample_data):
 
 @patch("mlops_course.model.basic_model.MlflowClient")
 @patch("mlops_course.model.basic_model.mlflow")
-def test_register_model_registers_with_alias(mock_mlflow, mock_client, basic_model):
+def test_register_model_registers_with_alias(
+    mock_mlflow: MagicMock, mock_client: MagicMock, basic_model: BasicModel
+) -> None:
     """Test that register_model calls MLflow and sets alias."""
     basic_model.run_id = "test-run"
     mock_mlflow.register_model.return_value.version = 42
@@ -127,7 +133,7 @@ def test_register_model_registers_with_alias(mock_mlflow, mock_client, basic_mod
 
 
 @patch("mlops_course.model.basic_model.mlflow")
-def test_retrieve_current_run_dataset_returns_dataset(mock_mlflow, basic_model):
+def test_retrieve_current_run_dataset_returns_dataset(mock_mlflow: MagicMock, basic_model: BasicModel) -> None:
     """Test that retrieve_current_run_dataset loads dataset source."""
     mock_source = MagicMock()
     mock_source.load.return_value = "mocked-dataset"
@@ -141,7 +147,7 @@ def test_retrieve_current_run_dataset_returns_dataset(mock_mlflow, basic_model):
 
 
 @patch("mlops_course.model.basic_model.mlflow")
-def test_retrieve_current_run_metadata_returns_dicts(mock_mlflow, basic_model):
+def test_retrieve_current_run_metadata_returns_dicts(mock_mlflow: MagicMock, basic_model: BasicModel) -> None:
     """Test that retrieve_current_run_metadata extracts metrics and params."""
     mock_data = {"metrics": {"acc": 0.9}, "params": {"C": 1.0}}
     mock_mlflow.get_run.return_value.data.to_dictionary.return_value = mock_data
