@@ -12,19 +12,20 @@ catalog_name, schema_name → Database schema names for Databricks tables.
 import mlflow
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
 from loguru import logger
 from mlflow import MlflowClient
 from mlflow.data.dataset_source import DatasetSource
 from mlflow.models import infer_signature
 from pyspark.sql import SparkSession
 from sklearn.compose import ColumnTransformer
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 from mlops_course.utils.config import ProjectConfig, Tags
 from mlops_course.utils.timer import timeit
+
 
 class BasicModel:
     """A basic model class for hotel_reservation prediction using LogisticRegression.
@@ -68,11 +69,6 @@ class BasicModel:
         self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.{self.test_table}").toPandas()
         self.data_version = "0"  # describe history -> retrieve
 
-        # self.train_set = self.train_set.dropna(subset=[self.target])
-        # self.test_set = self.test_set.dropna(subset=[self.target])
-        
-        print(list(self.train_set))
-        
         self.X_train = self.train_set[self.num_features + self.cat_features]
         self.y_train = self.train_set[self.target]
         self.X_test = self.test_set[self.num_features + self.cat_features]
@@ -92,10 +88,7 @@ class BasicModel:
         )
 
         self.pipeline = Pipeline(
-            steps=[
-                ("preprocessor", self.preprocessor), 
-                ("classifier", LogisticRegression(**self.parameters))
-            ]
+            steps=[("preprocessor", self.preprocessor), ("classifier", LogisticRegression(**self.parameters))]
         )
         logger.info("✅ Preprocessing pipeline defined.")
 

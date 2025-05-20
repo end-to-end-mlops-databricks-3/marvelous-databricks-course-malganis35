@@ -37,7 +37,6 @@ class DataProcessor:
         """
         self._drop_unused_columns()
         self._create_features()
-        # self._encode_target_and_categories()
         self._log_and_scale_numeric()
         self._cleanup_columns()
 

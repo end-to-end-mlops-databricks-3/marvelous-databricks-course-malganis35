@@ -1,15 +1,17 @@
+"""Main entry point for train a model and register to MLFlow on hotel reservation data."""
+
 # Databricks notebook source
 
 import os
+
 import mlflow
+from dotenv import load_dotenv
 from loguru import logger
+from marvelous.common import is_databricks
 from pyspark.sql import SparkSession
 
-from mlops_course.utils.config import ProjectConfig, Tags
 from mlops_course.model.basic_model import BasicModel
-
-from dotenv import load_dotenv
-from marvelous.common import is_databricks
+from mlops_course.utils.config import ProjectConfig, Tags
 
 # COMMAND ----------
 if not is_databricks():
