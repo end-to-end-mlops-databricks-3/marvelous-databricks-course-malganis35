@@ -18,25 +18,24 @@ dependencies = ["mlflow==2.17.0",
                 "databricks-sdk==0.32.0",
                 "pydantic==2.9.2",
                 "loguru==0.7.3",
-                "marvelous",
+                "marvelous@git+https://github.com/end-to-end-mlops-databricks-3/marvelous@0.1.0",
                 ]
 
 dynamic = ['version']
-
-[tool.uv.sources]
-marvelous = {git = "https://${GIT_TOKEN}@github.com/end-to-end-mlops-databricks-3/marvelous.git", rev="0.1.0"}
 
 [project.optional-dependencies]
 dev = ["databricks-connect==15.4.5",
        "ipykernel>=6.29.5, <7",
        "pip>=24.2",
        "pre-commit>=4.1.0, <5",
-       "pytest>=8.3.4, <9",             # Added by MA
     ]
 test = [
     "delta-spark==3.3.0",
+    "pre-commit>=4.1.0, <5",
     "pyspark==3.5.3",
     "pytest>=8.3.5",
+    "pytest-cov==6.1.1",
+    "pytest-mock==3.14.0",
 ]
 
 [build-system]

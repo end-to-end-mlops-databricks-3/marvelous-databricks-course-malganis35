@@ -12,7 +12,7 @@ tasks:
       - uv venv -p {{.PYTHON_VERSION}} .venv
     silent: false
 
-  sync-dev:
+  dev-install:
     desc: Sync project dependencies with optionals
     cmds:
       - rm -rf .venv
@@ -26,6 +26,28 @@ tasks:
         - task: create-venv
         - uv sync --extra test
         # - source .venv/Scripts/activate && uv sync --extra test # Activate and sync
+
+  test:
+    desc: Run unit test and coverage
+    cmds:
+      - task: sync-test
+      - pytest --cov src/mlops_course --cov-report=html:_artifact/coverage_re --cov-report=term-missing --cov-config=.coveragerc
+      - 'echo "Note: you can open the HTML report with: open _artifact/coverage_re/index.html"'
+
+  qa-lines-count:
+    desc: Count the number of lines in each *.py script (excluding .venv)
+    cmds:
+      - echo "--> Count the number of lines in each *.py script (excluding .venv)"
+      - >
+        find . -path ./.venv -prune -o -name '*.py' -exec wc -l {} \; |
+        sort -n |
+        awk '{printf "%4s %s\n", $1, $2}{s+=$1}END{print s}'
+
+  pc:
+    desc: Run pre-commit hooks
+    cmds:
+      - task: dev-install
+      - uv run pre-commit run --all-files
 
   lint:
     desc: Run pre-commit hooks
