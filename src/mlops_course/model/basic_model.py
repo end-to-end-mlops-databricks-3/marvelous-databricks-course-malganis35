@@ -24,7 +24,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 from mlops_course.utils.config import ProjectConfig, Tags
-
+from mlops_course.utils.timer import timeit
 
 class BasicModel:
     """A basic model class for hotel_reservation prediction using LogisticRegression.
@@ -56,6 +56,7 @@ class BasicModel:
         self.model_type = self.config.model_type
         self.tags = tags.dict()
 
+    @timeit
     def load_data(self) -> None:
         """Load training and testing data from Delta tables.
 
@@ -78,6 +79,7 @@ class BasicModel:
         self.y_test = self.test_set[self.target]
         logger.info("✅ Data successfully loaded.")
 
+    @timeit
     def prepare_features(self) -> None:
         """Encode categorical features and define a preprocessing pipeline.
 
@@ -97,11 +99,13 @@ class BasicModel:
         )
         logger.info("✅ Preprocessing pipeline defined.")
 
+    @timeit
     def train(self) -> None:
         """Train the model."""
         logger.info("🚀 Starting training...")
         self.pipeline.fit(self.X_train, self.y_train)
 
+    @timeit
     def log_model(self) -> None:
         """Log the model using MLflow."""
         mlflow.set_experiment(self.experiment_name)
@@ -141,6 +145,7 @@ class BasicModel:
                 sk_model=self.pipeline, artifact_path=f"{self.model_type}-pipeline-model", signature=signature
             )
 
+    @timeit
     def register_model(self) -> None:
         """Register model in Unity Catalog."""
         logger.info("🔄 Registering the model in UC...")
@@ -160,6 +165,7 @@ class BasicModel:
             version=latest_version,
         )
 
+    @timeit
     def retrieve_current_run_dataset(self) -> DatasetSource:
         """Retrieve MLflow run dataset.
 
@@ -171,6 +177,7 @@ class BasicModel:
         logger.info("✅ Dataset source loaded.")
         return dataset_source.load()
 
+    @timeit
     def retrieve_current_run_metadata(self) -> tuple[dict, dict]:
         """Retrieve MLflow run metadata.
 
@@ -182,6 +189,7 @@ class BasicModel:
         logger.info("✅ Dataset metadata loaded.")
         return metrics, params
 
+    @timeit
     def load_latest_model_and_predict(self, input_data: pd.DataFrame) -> np.ndarray:
         """Load the latest model from MLflow (alias=latest-model) and make predictions.
 
