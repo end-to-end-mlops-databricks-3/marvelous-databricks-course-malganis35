@@ -6,9 +6,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from mlops_course.utils.config import Tags
 from mlops_course.feature.data_processor import DataProcessor
-from mlops_course.utils.config import ProjectConfig
+from mlops_course.utils.config import ProjectConfig, Tags
 
 
 @pytest.fixture
@@ -27,12 +26,15 @@ def sample_config() -> ProjectConfig:
         experiment_name_basic="/dummy/exp/basic",
         experiment_name_custom="/dummy/exp/custom",
         model_name="dummy_model",
-        model_type="logistic-regression"
+        model_type="logistic-regression",
     )
+
 
 @pytest.fixture
 def sample_tags() -> Tags:
+    """Fixture providing a valid Tags object for testing."""
     return Tags()
+
 
 @pytest.fixture
 def mock_config() -> ProjectConfig:
@@ -51,7 +53,7 @@ def mock_config() -> ProjectConfig:
         experiment_name_basic="/Users/mock/basic",
         experiment_name_custom="/Users/mock/custom",
         model_name="mock_model",
-        model_type="logistic-regression"
+        model_type="logistic-regression",
     )
 
 
