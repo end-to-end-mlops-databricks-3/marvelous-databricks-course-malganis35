@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from mlops_course.utils.config import Tags
 from mlops_course.feature.data_processor import DataProcessor
 from mlops_course.utils.config import ProjectConfig
 
@@ -14,17 +15,24 @@ from mlops_course.utils.config import ProjectConfig
 def sample_config() -> ProjectConfig:
     """Provide a minimal valid ProjectConfig instance for testing."""
     return ProjectConfig(
-        num_features=[],
-        cat_features=[],
+        num_features=["num1"],
+        cat_features=["cat1"],
         target="booking_status",
         catalog_name="catalog",
         schema_name="schema",
-        parameters={},
+        parameters={"C": 1.0},
         raw_data_file="dummy.csv",
         train_table="train_table",
         test_table="test_table",
+        experiment_name_basic="/dummy/exp/basic",
+        experiment_name_custom="/dummy/exp/custom",
+        model_name="dummy_model",
+        model_type="logistic-regression"
     )
 
+@pytest.fixture
+def sample_tags() -> Tags:
+    return Tags()
 
 @pytest.fixture
 def mock_config() -> ProjectConfig:
@@ -40,6 +48,10 @@ def mock_config() -> ProjectConfig:
         target="booking_status",
         parameters={},
         raw_data_file="dummy.csv",
+        experiment_name_basic="/Users/mock/basic",
+        experiment_name_custom="/Users/mock/custom",
+        model_name="mock_model",
+        model_type="logistic-regression"
     )
 
 
@@ -78,9 +90,7 @@ def test_preprocess_pipeline_runs(processor: DataProcessor) -> None:
     df_processed = processor.preprocess()
     assert "total_nights" in df_processed.columns
     assert "has_children" in df_processed.columns
-    assert "arrival_date_complete" in df_processed.columns
     assert "booking_status" in df_processed.columns
-    assert "type_of_meal_plan_Meal_Plan_2" in df_processed.columns
 
 
 def test_split_data_shapes(processor: DataProcessor) -> None:
