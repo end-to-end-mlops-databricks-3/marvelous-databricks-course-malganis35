@@ -126,3 +126,5 @@ EXPORT GITHUB_TOKEN = "xxxx"
 
 - Databricks
 - Databricks Power Tools
+
+4. Copy the .env.template file to .env and complete the necessary information

@@ -7,3 +7,4 @@ Code Documentation
    :caption: Step by step guidelines
 
    preprocessing.rst
+   model_training.rst

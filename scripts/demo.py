@@ -1,6 +1,7 @@
 """Demo script to showcase hotel_resa package functionality."""
 
 # %% Databricks notebook source
+import pretty_errors  # noqa: F401
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()

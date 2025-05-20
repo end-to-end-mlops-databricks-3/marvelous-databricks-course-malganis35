@@ -22,6 +22,11 @@ class ProjectConfig(BaseModel):
     raw_data_file: str
     train_table: str
     test_table: str
+    experiment_name_basic: str | None
+    experiment_name_custom: str | None
+    model_name: str | None
+    model_type: str | None
+    model_config = {"protected_namespaces": ()}
 
     @classmethod
     def from_yaml(cls, config_path: str, env: str = "dev") -> "ProjectConfig":
