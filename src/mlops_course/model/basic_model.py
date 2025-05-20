@@ -12,7 +12,6 @@ catalog_name, schema_name → Database schema names for Databricks tables.
 import mlflow
 import numpy as np
 import pandas as pd
-# from lightgbm import LGBMRegressor
 from sklearn.linear_model import LogisticRegression
 from loguru import logger
 from mlflow import MlflowClient
@@ -20,7 +19,6 @@ from mlflow.data.dataset_source import DatasetSource
 from mlflow.models import infer_signature
 from pyspark.sql import SparkSession
 from sklearn.compose import ColumnTransformer
-# from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
@@ -29,7 +27,7 @@ from mlops_course.utils.config import ProjectConfig, Tags
 
 
 class BasicModel:
-    """A basic model class for house price prediction using LightGBM.
+    """A basic model class for hotel_reservation prediction using LogisticRegression.
 
     This class handles data loading, feature preparation, model training, and MLflow logging.
     """
@@ -54,7 +52,8 @@ class BasicModel:
         self.train_table = self.config.train_table
         self.test_table = self.config.test_table
         self.experiment_name = self.config.experiment_name_basic
-        self.model_name = f"{self.catalog_name}.{self.schema_name}.house_prices_model_basic"
+        self.model_name = f"{self.catalog_name}.{self.schema_name}.{self.config.model_name}"
+        self.model_type = self.config.model_type
         self.tags = tags.dict()
 
     def load_data(self) -> None:
@@ -83,7 +82,7 @@ class BasicModel:
         """Encode categorical features and define a preprocessing pipeline.
 
         Creates a ColumnTransformer for one-hot encoding categorical features while passing through numerical
-        features. Constructs a pipeline combining preprocessing and LightGBM regression model.
+        features. Constructs a pipeline combining preprocessing and LogisticRegression Classification model.
         """
         logger.info("🔄 Defining preprocessing pipeline...")
         self.preprocessor = ColumnTransformer(
@@ -139,14 +138,14 @@ class BasicModel:
             )
             mlflow.log_input(dataset, context="training")
             mlflow.sklearn.log_model(
-                sk_model=self.pipeline, artifact_path="logistic-regression-pipeline-model", signature=signature
+                sk_model=self.pipeline, artifact_path=f"{self.model_type}-pipeline-model", signature=signature
             )
 
     def register_model(self) -> None:
         """Register model in Unity Catalog."""
         logger.info("🔄 Registering the model in UC...")
         registered_model = mlflow.register_model(
-            model_uri=f"runs:/{self.run_id}/logistic-regression-pipeline-model",
+            model_uri=f"runs:/{self.run_id}/{self.model_type}-pipeline-model",
             name=self.model_name,
             tags=self.tags,
         )

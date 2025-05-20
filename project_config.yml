@@ -18,8 +18,10 @@ dev:
   test_table: hotel_reservations_test_set
 
 
-experiment_name_basic: /Users/caotri.do881@gmail.com/house-prices-basic
-experiment_name_custom: /Users/caotri.do881@gmail.com/house-prices-custom
+experiment_name_basic: /Users/caotri.do881@gmail.com/hotel-reservation-basic
+experiment_name_custom: /Users/caotri.do881@gmail.com/hotel-reservation-custom
+model_name: hotel_reservation_LR
+model_type: logistic-regression
 
 
 parameters:
