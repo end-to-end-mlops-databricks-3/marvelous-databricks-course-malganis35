@@ -2,6 +2,7 @@
 
 # %% Databricks notebook source
 
+import pretty_errors  # noqa: F401
 import yaml
 from loguru import logger
 from pyspark.sql import SparkSession

@@ -16,10 +16,14 @@ def config_yaml_content() -> dict[str, Any]:
     :return: A dictionary representing the full structure of a config YAML file.
     """
     return {
+        "experiment_name_basic": "/exp/basic",
+        "experiment_name_custom": "/exp/custom",
+        "model_name": "test_model",
+        "model_type": "logistic-regression",
         "num_features": ["f1", "f2"],
-        "cat_features": ["c1", "c2"],
-        "target": "target_col",
-        "parameters": {"param1": 0.1, "param2": 100},
+        "cat_features": ["c1"],
+        "target": "booking_status",
+        "parameters": {"C": 1.0},
         "prd": {
             "catalog_name": "catalog_prd",
             "schema_name": "schema_prd",
@@ -55,7 +59,8 @@ def test_from_yaml_loads_dev_env_correctly(config_yaml_content: dict[str, Any]) 
         config = ProjectConfig.from_yaml(tmp.name, env="dev")
         assert config.catalog_name == "catalog_dev"
         assert config.schema_name == "schema_dev"
-        assert config.parameters == {"param1": 0.1, "param2": 100}
+        assert config.parameters == {"C": 1.0}
+        assert config.model_name == "test_model"
 
 
 def test_from_yaml_invalid_env_raises_error(config_yaml_content: dict[str, Any]) -> None:
