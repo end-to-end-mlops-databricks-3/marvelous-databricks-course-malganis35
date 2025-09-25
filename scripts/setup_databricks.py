@@ -49,6 +49,50 @@ def load_files_from_source(config):
         raise ValueError("source_type must be either 'kaggle' or 'local'")
 
 
+# --- Helper functions for UC objects ---
+def check_catalog_exists(w: WorkspaceClient, catalog_name: str):
+    try:
+        w.catalogs.get(catalog_name)
+        logger.info(f"Catalog {catalog_name} exists.")
+    except Exception as e:
+        logger.error(f"Catalog {catalog_name} does not exist or cannot be accessed: {e}")
+        raise SystemExit(1)
+
+
+def ensure_schema(w: WorkspaceClient, catalog_name: str, schema_name: str):
+    try:
+        w.schemas.get(schema_name, catalog_name=catalog_name)
+        logger.info(f"Schema {schema_name} already exists in {catalog_name}.")
+    except Exception:
+        logger.info(f"Creating schema {schema_name} in {catalog_name}...")
+        try:
+            w.schemas.create(
+                name=schema_name, catalog_name=catalog_name, comment="ML Schema"
+            )
+            logger.info(f"Schema {schema_name} created in {catalog_name}.")
+        except Exception as e:
+            logger.error(f"Could not create schema {schema_name} in {catalog_name}: {e}")
+
+
+def ensure_volume(w: WorkspaceClient, catalog_name: str, schema_name: str, volume_name: str):
+    try:
+        w.volumes.get(volume_name, catalog_name=catalog_name, schema_name=schema_name)
+        logger.info(f"Volume {volume_name} already exists in {catalog_name}.{schema_name}.")
+    except Exception:
+        logger.info(f"Creating volume {volume_name} in {catalog_name}.{schema_name}...")
+        try:
+            w.volumes.create(
+                name=volume_name,
+                catalog_name=catalog_name,
+                schema_name=schema_name,
+                volume_type=VolumeType.MANAGED,
+                comment="Data volume",
+            )
+            logger.info(f"Volume {volume_name} created in {catalog_name}.{schema_name}.")
+        except Exception as e:
+            logger.error(f"Could not create volume {volume_name} in {catalog_name}.{schema_name}: {e}")
+
+
 def main():
     # --- Load host & token from .env ---
     load_dotenv()
@@ -78,34 +122,12 @@ def main():
     summary = {}
 
     for catalog in catalogs:
-        # Create catalog
-        try:
-            w.catalogs.create(name=catalog, comment="ML Catalog")
-            logger.info(f"Catalog {catalog} created.")
-        except Exception:
-            logger.info(f"Catalog {catalog} already exists.")
+        # Check that catalog exists, otherwise exit
+        check_catalog_exists(w, catalog)
 
-        # Create schema
-        try:
-            w.schemas.create(
-                name=schema_name, catalog_name=catalog, comment="ML Schema"
-            )
-            logger.info(f"Schema {schema_name} created in {catalog}.")
-        except Exception:
-            logger.info(f"Schema {schema_name} already exists in {catalog}.")
-
-        # Create volume
-        try:
-            w.volumes.create(
-                name=volume_name,
-                catalog_name=catalog,
-                schema_name=schema_name,
-                volume_type=VolumeType.MANAGED,
-                comment="Data volume",
-            )
-            logger.info(f"Volume {volume_name} created in {catalog}.{schema_name}.")
-        except Exception:
-            logger.info(f"Volume {volume_name} already exists in {catalog}.{schema_name}.")
+        # Ensure schema and volume exist
+        ensure_schema(w, catalog, schema_name)
+        ensure_volume(w, catalog, schema_name, volume_name)
 
         # Upload files
         uploaded_files = []
