@@ -95,7 +95,7 @@ class BasicModel:
     @timeit
     def train(self) -> None:
         """Train the model."""
-        logger.info("🚀 Starting training...")
+        logger.info("Starting training...")
         self.pipeline.fit(self.X_train, self.y_train)
 
     @timeit
@@ -113,10 +113,10 @@ class BasicModel:
             recall = recall_score(self.y_test, y_pred, average="weighted", zero_division=0)
             f1 = f1_score(self.y_test, y_pred, average="weighted", zero_division=0)
 
-            logger.info(f"📊 Accuracy: {accuracy}")
-            logger.info(f"📊 Precision: {precision}")
-            logger.info(f"📊 Recall: {recall}")
-            logger.info(f"📊 F1 Score: {f1}")
+            logger.info(f"Accuracy: {accuracy}")
+            logger.info(f"Precision: {precision}")
+            logger.info(f"Recall: {recall}")
+            logger.info(f"F1 Score: {f1}")
 
             # Log parameters and metrics
             mlflow.log_param("model_type", "Logistic Regression with preprocessing")
