@@ -1,11 +1,14 @@
-# Run the code : uv run scripts/run_create_mlflow_workspace.py --env-file ./.env --config-file ./project_config.yml
+# Run the code :
+# uv run scripts/run_create_mlflow_workspace.py --env-file ./.env --config-file ./project_config.yml --environment dev
 import os
 import argparse
 from dotenv import load_dotenv
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.errors.platform import ResourceDoesNotExist
 import mlflow
+from mlflow.tracking import MlflowClient
 from mlops_course.utils.config import ProjectConfig
+from loguru import logger
 
 
 def main(env_file: str, config_file: str, environment: str, profile: str | None = None) -> None:
@@ -17,28 +20,42 @@ def main(env_file: str, config_file: str, environment: str, profile: str | None 
     # Retrieve the profile either from CLI or .env
     profile = profile or os.getenv("PROFILE")
     if not profile:
-        raise ValueError("❌ PROFILE is not set in arguments or .env")
+        logger.error("❌ PROFILE is not set in arguments or .env")
+        raise ValueError("PROFILE is not set in arguments or .env")
+
+    logger.info(f"Using Databricks profile: {profile}")
 
     # Load the project configuration
     config = ProjectConfig.from_yaml(config_path=config_file, env=environment)
+    logger.info(f"Loaded project configuration for environment: {environment}")
 
     # Connect to Databricks
     w = WorkspaceClient(profile=profile)
+    client = MlflowClient()
+    logger.debug("Connected to Databricks and initialized MlflowClient")
 
     # Get the experiment path from config
     experiment_path = config.experiment_name_basic
+    logger.info(f"Experiment path resolved from config: {experiment_path}")
 
     # Ensure parent directory exists (e.g. /Shared/experiments)
     exp_dir = "/".join(experiment_path.split("/")[:-1])  # => "/Shared/experiments"
     try:
         w.workspace.get_status(exp_dir)
+        logger.debug(f"Directory already exists: {exp_dir}")
     except ResourceDoesNotExist:
         w.workspace.mkdirs(exp_dir)
-        print(f"✅ Directory {exp_dir} created")
+        logger.success(f"Directory created: {exp_dir}")
+
+    # Check if experiment exists and is deleted
+    exp = client.get_experiment_by_name(experiment_path)
+    if exp and exp.lifecycle_stage == "deleted":
+        client.restore_experiment(exp.experiment_id)
+        logger.warning(f"Restored deleted experiment: {experiment_path}")
 
     # Set MLflow experiment
     mlflow.set_experiment(experiment_path)
-    print(f"✅ MLflow experiment ready: {experiment_path}")
+    logger.success(f"MLflow experiment ready: {experiment_path}")
 
 
 if __name__ == "__main__":
