@@ -2,6 +2,7 @@
 
 # %% Databricks notebook source
 
+import pretty_errors  # noqa: F401
 import yaml
 from loguru import logger
 from pyspark.sql import SparkSession
@@ -10,11 +11,13 @@ from mlops_course.feature.data_processor import DataProcessor
 from mlops_course.utils.config import ProjectConfig
 
 # COMMAND ----------
+CONFIG_FILE = "../project_config.yml"
+ENVIRONMENT_CHOICE="dev"
+
+# COMMAND ----------
 
 logger.info("Load configuration from YAML file")
-config_path = "../project_config.yml"
-
-config = ProjectConfig.from_yaml(config_path=config_path, env="dev")
+config = ProjectConfig.from_yaml(config_path=CONFIG_FILE, env=ENVIRONMENT_CHOICE)
 
 logger.info("Configuration loaded:")
 logger.info(yaml.dump(config, default_flow_style=False))

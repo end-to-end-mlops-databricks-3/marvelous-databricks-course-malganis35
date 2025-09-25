@@ -37,7 +37,6 @@ class DataProcessor:
         """
         self._drop_unused_columns()
         self._create_features()
-        self._encode_target_and_categories()
         self._log_and_scale_numeric()
         self._cleanup_columns()
 
@@ -60,26 +59,6 @@ class DataProcessor:
         """
         self.df["total_nights"] = self.df["no_of_weekend_nights"] + self.df["no_of_week_nights"]
         self.df["has_children"] = self.df["no_of_children"].apply(lambda x: 1 if x > 0 else 0)
-        self.df["arrival_date_complete"] = pd.to_datetime(
-            {"year": self.df.arrival_year, "month": self.df.arrival_month, "day": self.df.arrival_date}, errors="coerce"
-        )
-
-    def _encode_target_and_categories(self) -> None:
-        """Encode categorical variables and the target column if present.
-
-        - booking_status is mapped to binary: Canceled -> 1, Not_Canceled -> 0
-        - Categorical columns are one-hot encoded with drop_first=True
-        - All column names are cleaned (spaces replaced, invalid chars removed)
-        """
-        if "booking_status" in self.df.columns:
-            self.df["booking_status"] = self.df["booking_status"].map({"Canceled": 1, "Not_Canceled": 0})
-        categorical_cols = ["type_of_meal_plan", "room_type_reserved", "market_segment_type"]
-        self.df = pd.get_dummies(
-            self.df, columns=[col for col in categorical_cols if col in self.df.columns], drop_first=True
-        )
-
-        # Clean column names: remove spaces and invalid characters
-        self.df.columns = self.df.columns.str.replace(" ", "_").str.replace(r"[;{}()\n\t=]", "", regex=True)
 
     def _log_and_scale_numeric(self) -> None:
         """Apply log transformation and standard scaling to numeric features.
@@ -101,9 +80,9 @@ class DataProcessor:
     def _cleanup_columns(self) -> None:
         """Drop temporary or redundant date columns from the DataFrame.
 
-        Removes: 'arrival_year', 'arrival_month', 'arrival_date'
+        Removes: 'arrival_date'
         """
-        self.df.drop(columns=["arrival_year", "arrival_month", "arrival_date"], errors="ignore", inplace=True)
+        self.df.drop(columns=["arrival_date"], errors="ignore", inplace=True)
 
     @timeit
     def split_data(self, test_size: float = 0.2, random_state: int = 42) -> tuple[pd.DataFrame, pd.DataFrame]:
