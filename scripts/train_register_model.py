@@ -14,15 +14,22 @@ from pyspark.sql import SparkSession
 from mlops_course.model.basic_model import BasicModel
 from mlops_course.utils.config import ProjectConfig, Tags
 
+## COMMAND ----------
+# Global user setup 
+
+ENV_FILE = "../.env"
+CONFIG_FILE = "../project_config.yml"
+ENVIRONMENT_CHOICE="dev"
+
 # COMMAND ----------
 if not is_databricks():
-    load_dotenv()
-    profile = os.environ["PROFILE"]
+    load_dotenv(dotenv_path=ENV_FILE)
+    profile = os.getenv("PROFILE") # os.environ["PROFILE"]
     mlflow.set_tracking_uri(f"databricks://{profile}")
     mlflow.set_registry_uri(f"databricks-uc://{profile}")
 
 # COMMAND ----------
-config = ProjectConfig.from_yaml(config_path="../project_config.yml", env="dev")
+config = ProjectConfig.from_yaml(config_path=CONFIG_FILE, env=ENVIRONMENT_CHOICE)
 spark = SparkSession.builder.getOrCreate()
 tags_dict = {"git_sha": "abcd12345", "branch": "week2", "job_run_id": ""}
 tags = Tags(**tags_dict)
