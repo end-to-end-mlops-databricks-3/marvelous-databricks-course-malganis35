@@ -1,9 +1,0 @@
-{
-"catalogs": ["mlops_dev", "mlops_acc", "mlops_prd"],
-"schema_name": "caotrido",
-"volume_name": "data",
-
-"source_type": "kaggle",
-"kaggle_dataset": "ahsan81/hotel-reservations-classification-dataset",
-"files": ["Hotel Reservations.csv"]
-}
