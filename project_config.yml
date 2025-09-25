@@ -20,11 +20,11 @@ dev:
   train_table: hotel_reservations_train_set
   test_table: hotel_reservations_test_set
 
-# Source des données
+# Data Sources
 data_source:
-  source_type: kaggle            # "kaggle" ou "local"
+  source_type: kaggle            # "kaggle" or "local"
   kaggle_dataset: ahsan81/hotel-reservations-classification-dataset
-  local_path: ./data/raw         # si source_type = local
+  local_path: ./data/raw         # if source_type = local
 
 experiment_name_basic: /Users/caotri.do881@gmail.com/hotel-reservation-basic
 experiment_name_custom: /Users/caotri.do881@gmail.com/hotel-reservation-custom
