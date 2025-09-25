@@ -1,6 +1,6 @@
 # run the script
-# On one environment: uv run scripts/run_upload.py --env dev --env-file .env --config project_config.ym
-# On all environment: uv run scripts/run_upload.py --env all --env-file .env --config project_config.ym
+# On one environment: uv run scripts/run_upload.py --env dev --env-file .env --config project_config.yml
+# On all environment: uv run scripts/run_upload.py --env all --env-file .env --config project_config.yml
 
 import argparse
 from mlops_course.data.config_loader import load_env, load_project_config
