@@ -1,6 +1,6 @@
 # Run the script:
-#   One environment: uv run scripts/run_upload.py --env dev --env-file .env --config project_config.yml
-#   All environments: uv run scripts/run_upload.py --env all --env-file .env --config project_config.yml
+#   One environment: uv run scripts/run_upload_data.py --env dev --env-file .env --config project_config.yml
+#   All environments: uv run scripts/run_upload_data.py --env all --env-file .env --config project_config.yml
 
 import argparse
 from loguru import logger
