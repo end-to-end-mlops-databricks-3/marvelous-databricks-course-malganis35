@@ -1,8 +1,9 @@
-# run the script
-# On one environment: uv run scripts/run_upload.py --env dev --env-file .env --config project_config.yml
-# On all environment: uv run scripts/run_upload.py --env all --env-file .env --config project_config.yml
+# Run the script:
+#   One environment: uv run scripts/run_upload.py --env dev --env-file .env --config project_config.yml
+#   All environments: uv run scripts/run_upload.py --env all --env-file .env --config project_config.yml
 
 import argparse
+from loguru import logger
 from mlops_course.data.config_loader import load_env, load_project_config
 from mlops_course.data.uploader import load_files_from_source, upload_files
 
@@ -36,7 +37,7 @@ def main():
     total = 0
 
     for env in envs:
-        print(f"\n=== Uploading to {env} ===")
+        logger.info(f"=== Uploading to {env} ===")
 
         # Load environment-specific config
         env_config, global_config = load_project_config(args.config, env)
@@ -52,6 +53,7 @@ def main():
 
         # Load files
         files = load_files_from_source(config_dict)
+        logger.debug(f"Files to upload: {files}")
 
         # Upload to Databricks
         uploaded = upload_files(host, token, env_config, files)
@@ -60,16 +62,16 @@ def main():
         total += len(uploaded)
 
     # 4. Final summary
-    print("\n===== FINAL SUMMARY =====")
+    logger.info("===== FINAL SUMMARY =====")
     for env, files in summary.items():
-        print(f"Environment: {env}")
+        logger.info(f"Environment: {env}")
         if files:
             for f in files:
-                print(f" - {f}")
+                logger.info(f" - {f}")
         else:
-            print(" (no files uploaded)")
-    print(f"Total uploaded files: {total}")
-    print("✅ Process completed.")
+            logger.warning(" (no files uploaded)")
+    logger.info(f"Total uploaded files: {total}")
+    logger.success("Process completed.")
 
 
 if __name__ == "__main__":
