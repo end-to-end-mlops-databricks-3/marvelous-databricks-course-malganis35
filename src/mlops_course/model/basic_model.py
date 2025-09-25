@@ -63,7 +63,7 @@ class BasicModel:
 
         Splits data into features (X_train, X_test) and target (y_train, y_test).
         """
-        logger.info("🔄 Loading data from Databricks tables...")
+        logger.info("Loading data from Databricks tables...")
         self.train_set_spark = self.spark.table(f"{self.catalog_name}.{self.schema_name}.{self.train_table}")
         self.train_set = self.train_set_spark.toPandas()
         self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.{self.test_table}").toPandas()
@@ -73,7 +73,7 @@ class BasicModel:
         self.y_train = self.train_set[self.target]
         self.X_test = self.test_set[self.num_features + self.cat_features]
         self.y_test = self.test_set[self.target]
-        logger.info("✅ Data successfully loaded.")
+        logger.info("Data successfully loaded.")
 
     @timeit
     def prepare_features(self) -> None:
@@ -82,7 +82,7 @@ class BasicModel:
         Creates a ColumnTransformer for one-hot encoding categorical features while passing through numerical
         features. Constructs a pipeline combining preprocessing and LogisticRegression Classification model.
         """
-        logger.info("🔄 Defining preprocessing pipeline...")
+        logger.info("Defining preprocessing pipeline...")
         self.preprocessor = ColumnTransformer(
             transformers=[("cat", OneHotEncoder(handle_unknown="ignore"), self.cat_features)], remainder="passthrough"
         )
@@ -90,7 +90,7 @@ class BasicModel:
         self.pipeline = Pipeline(
             steps=[("preprocessor", self.preprocessor), ("classifier", LogisticRegression(**self.parameters))]
         )
-        logger.info("✅ Preprocessing pipeline defined.")
+        logger.info("Preprocessing pipeline defined.")
 
     @timeit
     def train(self) -> None:
@@ -141,13 +141,13 @@ class BasicModel:
     @timeit
     def register_model(self) -> None:
         """Register model in Unity Catalog."""
-        logger.info("🔄 Registering the model in UC...")
+        logger.info("Registering the model in UC...")
         registered_model = mlflow.register_model(
             model_uri=f"runs:/{self.run_id}/{self.model_type}-pipeline-model",
             name=self.model_name,
             tags=self.tags,
         )
-        logger.info(f"✅ Model registered as version {registered_model.version}.")
+        logger.info(f"Model registered as version {registered_model.version}.")
 
         latest_version = registered_model.version
 
@@ -167,7 +167,7 @@ class BasicModel:
         run = mlflow.get_run(self.run_id)
         dataset_info = run.inputs.dataset_inputs[0].dataset
         dataset_source = mlflow.data.get_source(dataset_info)
-        logger.info("✅ Dataset source loaded.")
+        logger.info("Dataset source loaded.")
         return dataset_source.load()
 
     @timeit
@@ -179,7 +179,7 @@ class BasicModel:
         run = mlflow.get_run(self.run_id)
         metrics = run.data.to_dictionary()["metrics"]
         params = run.data.to_dictionary()["params"]
-        logger.info("✅ Dataset metadata loaded.")
+        logger.info("Dataset metadata loaded.")
         return metrics, params
 
     @timeit
@@ -191,12 +191,12 @@ class BasicModel:
         :param input_data: Pandas DataFrame containing input features for prediction.
         :return: Pandas DataFrame with predictions.
         """
-        logger.info("🔄 Loading model from MLflow alias 'production'...")
+        logger.info("Loading model from MLflow alias 'production'...")
 
         model_uri = f"models:/{self.model_name}@latest-model"
         model = mlflow.sklearn.load_model(model_uri)
 
-        logger.info("✅ Model successfully loaded.")
+        logger.info("Model successfully loaded.")
 
         # Make predictions
         predictions = model.predict(input_data)
