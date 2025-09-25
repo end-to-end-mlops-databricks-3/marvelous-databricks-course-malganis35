@@ -1,22 +1,30 @@
 prd:
   catalog_name: mlops_prd
   schema_name: caotrido
-  raw_data_file: hotel_reservations.csv
+  volume_name: data
+  raw_data_file: "Hotel Reservations.csv"
   train_table: hotel_reservations_train_set
   test_table: hotel_reservations_test_set
 acc:
   catalog_name: mlops_acc
   schema_name: caotrido
-  raw_data_file: hotel_reservations.csv
+  volume_name: data
+  raw_data_file: "Hotel Reservations.csv"
   train_table: hotel_reservations_train_set
   test_table: hotel_reservations_test_set
 dev:
   catalog_name: mlops_dev
   schema_name: caotrido
-  raw_data_file: hotel_reservations.csv
+  volume_name: data
+  raw_data_file: "Hotel Reservations.csv"
   train_table: hotel_reservations_train_set
   test_table: hotel_reservations_test_set
 
+# Source des données
+data_source:
+  source_type: kaggle            # "kaggle" ou "local"
+  kaggle_dataset: ahsan81/hotel-reservations-classification-dataset
+  local_path: ./data/raw         # si source_type = local
 
 experiment_name_basic: /Users/caotri.do881@gmail.com/hotel-reservation-basic
 experiment_name_custom: /Users/caotri.do881@gmail.com/hotel-reservation-custom
